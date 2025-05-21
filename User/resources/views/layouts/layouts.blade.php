@@ -54,7 +54,7 @@
                     </div>
                     <div class="hidden md:flex items-center space-x-4">
                         <a href="#" class="bg-primary text-white px-6 py-2 rounded font-medium">SHOP NOW</a>
-                        <a href="#" class="bg-[#f3efec] text-primary border border-primary px-6 py-2 rounded font-medium hover:bg-primary hover:text-white transition duration-300">LOGIN</a>
+                        <a href="{{ route('login') }}" class="bg-[#f3efec] text-primary border border-primary px-6 py-2 rounded font-medium hover:bg-primary hover:text-white transition duration-300">LOGIN</a>
                         <div class="relative">
                             <a href="#"><i class="fas fa-shopping-cart text-gray-700"></i></a>
                             <span class="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>
