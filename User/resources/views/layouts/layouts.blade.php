@@ -28,16 +28,12 @@
             <div class="container mx-auto px-4">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center">
-                        <i class="fas fa-phone-alt mr-2"></i> <span>+123 456 7890</span>
+                        <i class="fas fa-phone-alt mr-2"></i> <span>+696 969 6969</span>
                     </div>
                     <div class="text-center">
                         Welcome to Our Store
                     </div>
                     <div class="flex space-x-4">
-                        <a href="#"><i class="fas fa-user"></i></a>
-                        <a href="#"><i class="fas fa-heart"></i></a>
-                        <a href="#"><i class="fas fa-shopping-cart"></i></a>
-                        <a href="#"><i class="fas fa-search"></i></a>
                     </div>
                 </div>
             </div>
@@ -46,16 +42,20 @@
             <div class="container mx-auto px-4">
                 <div class="flex justify-between items-center">
                     <a class="flex items-center" href="/">
-                        <img src="{{ asset('images/logo.png') }}" alt="Fashion Store Logo" class="h-10">
+                        <img src="{{ asset('images/61698c7aece86.jpg') }}" alt="Fashion Store Logo" class="h-10">
                     </a>
-                    <div class="hidden md:flex items-center space-x-6">
+                    <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
                         <a href="#" class="font-medium text-primary hover:text-gray-600">Home</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">About</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Shop</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Pages</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Blog</a>
+                        <a href="#" class="font-medium text-gray-700 hover:text-primary"><i class="fas fa-search"></i></a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-4">
                         <a href="#" class="bg-primary text-white px-6 py-2 rounded font-medium">SHOP NOW</a>
-                        <div class="relative ml-4">
+                        <a href="#" class="bg-[#f3efec] text-primary border border-primary px-6 py-2 rounded font-medium hover:bg-primary hover:text-white transition duration-300">LOGIN</a>
+                        <div class="relative">
                             <a href="#"><i class="fas fa-shopping-cart text-gray-700"></i></a>
                             <span class="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>
                         </div>
