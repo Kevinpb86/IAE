@@ -43,7 +43,17 @@ class ProductController extends Controller
         // Handle image upload if present
         $imagePath = null;
         if ($request->hasFile('product_image')) {
-            $imagePath = $request->file('product_image')->store('products', 'public');
+            // Get the file extension
+            $extension = $request->file('product_image')->getClientOriginalExtension();
+            
+            // Generate a unique filename
+            $filename = time() . '_' . uniqid() . '.' . $extension;
+            
+            // Store the file in the public/Product directory
+            $request->file('product_image')->move(public_path('Product'), $filename);
+            
+            // Save the relative path to the database
+            $imagePath = 'Product/' . $filename;
         }
 
         // Create the product
