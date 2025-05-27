@@ -5,7 +5,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PreOrderController;
+
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\ProductController;
+
 
 
 // Public Routes
@@ -20,7 +24,10 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
 
 // Registration Routes
 Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
