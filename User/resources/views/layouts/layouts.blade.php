@@ -45,7 +45,7 @@
                         <img src="{{ asset('images/Logo Strave.jpeg') }}" alt="Fashion Store Logo" class="h-10">
                     </a>
                     <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
-                        <a href="#" class="font-medium text-primary hover:text-gray-600">Home</a>
+                        <a href="{{ route('preorder.form') }}" class="font-medium text-primary hover:text-gray-600">Form</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">About</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Shop</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Pages</a>
