@@ -10,8 +10,8 @@
 <body class="bg-gray-50">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
-        <aside class="hidden md:flex w-72 flex-shrink-0">
-            <div class="flex flex-col w-72" style="background-color: #f3efec">
+        <aside class="hidden md:flex w-72 flex-shrink-0 fixed h-screen">
+            <div class="flex flex-col w-72 h-full" style="background-color: #f3efec">
                 <div class="flex flex-col flex-grow pt-8 overflow-y-auto">
                     <div class="px-6">
                         <h1 class="text-2xl font-semibold text-gray-800">Admin Dashboard</h1>
@@ -59,7 +59,7 @@
             </div>
         </aside>
         <!-- Main Content -->
-        <div class="flex-1">
+        <div class="flex-1 md:ml-72">
             @yield('content')
         </div>
     </div>
