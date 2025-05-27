@@ -4,48 +4,57 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\PreOrderService;
-use Illuminate\Support\Facades\Http;
 
 class PreOrderController extends Controller
 {
+    private static $preOrders = []; // Array untuk menyimpan data sementara
+
     public function store(Request $request)
     {
-        $request->validate([
-            'product' => 'required|string',
+        $validated = $request->validate([
+            'product' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
-            'address' => 'required|string',
-            'phone_number' => 'required|string',
-            'email' => 'required|email',
-            'additional_notes' => 'nullable|string',
+            'address' => 'required|string|max:500',
+            'phone_number' => 'required|string|max:15',
+            'email' => 'required|email|max:255',
+            'additional_notes' => 'nullable|string|max:1000',
         ]);
 
-        // Mapping data
-        $data = [
-            'user_id' => auth()->id(), // Assuming the user is authenticated
-            'product_id' => $this->getProductIdByName($request->product), // Example mapping
-            'quantity' => $request->quantity,
-            'notes' => $request->additional_notes,
-            'address' => $request->address,
-            'phone' => $request->phone_number,
-            'email' => $request->email,
-        ];
+        $data = $validated;
 
-        $preOrder = PreOrderService::addPreOrder($data);
+        // Simpan data ke array sementara
+        $data['id'] = count(self::$preOrders) + 1; // Tambahkan ID unik untuk setiap pre-order
+        self::$preOrders[] = $data;
 
-        return response()->json($preOrder, 201);
+        // Periksa apakah request menginginkan respons JSON (API call)
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'message' => 'Pre-order berhasil disimpan',
+                'data' => $data,
+            ], 201);
+        }
+
+        // Jika berasal dari form web, redirect ke halaman lain
+        return redirect()->route('preorder.form')->with('success', 'Pre-order berhasil disimpan!');
     }
 
     public function index()
     {
-        return response()->json(PreOrderService::getAllPreOrders());
+        // Kembalikan semua data pre-order
+        return response()->json(self::$preOrders);
     }
 
-    // Helper function to get product ID by name
-    private function getProductIdByName($productName)
+    public function show($id)
     {
-        // Example: Replace this with actual logic to fetch product ID
-        $product = \App\Models\Product::where('name', $productName)->first();
-        return $product ? $product->id : null;
+        // Cari pre-order berdasarkan ID
+        $preOrder = collect(self::$preOrders)->firstWhere('id', $id);
+
+        // Jika pre-order tidak ditemukan, kembalikan respons error
+        if (!$preOrder) {
+            return response()->json(['message' => 'Pre-order tidak ditemukan'], 404);
+        }
+
+        // Kembalikan data pre-order
+        return response()->json($preOrder);
     }
 }
