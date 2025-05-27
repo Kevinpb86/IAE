@@ -4,7 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PurchaseHistoryController;
 
 Route::get('/', function () {
-    return view('dashboard');
+    return redirect('/products');
+});
+
+Route::get('/products', function () {
+    return view('products');
 });
 
 Route::get('/inputdata', function () {
