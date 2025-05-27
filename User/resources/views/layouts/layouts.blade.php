@@ -42,7 +42,7 @@
             <div class="container mx-auto px-4">
                 <div class="flex justify-between items-center">
                     <a class="flex items-center" href="/">
-                        <img src="{{ asset('images/61698c7aece86.jpg') }}" alt="Fashion Store Logo" class="h-10">
+                        <img src="{{ asset('images/Logo Strave.jpeg') }}" alt="Fashion Store Logo" class="h-10">
                     </a>
                     <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
                         <a href="#" class="font-medium text-primary hover:text-gray-600">Home</a>
