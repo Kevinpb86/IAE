@@ -62,4 +62,12 @@ class ProductController extends Controller
     {
         //
     }
+
+    /**
+     * Retrieve all products.
+     */
+    public function getProducts()
+    {
+
+    }
 }
