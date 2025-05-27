@@ -10,9 +10,7 @@ Route::get('/', function () {
     return redirect('/products');
 });
 
-Route::get('/products', function () {
-    return view('products');
-})->name('products.index');
+Route::get('/products', [App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
 
 Route::get('/inputdata', function () {
     return view('inputdata');
