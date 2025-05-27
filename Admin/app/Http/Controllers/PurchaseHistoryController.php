@@ -32,17 +32,29 @@ class PurchaseHistoryController extends Controller
             $query->whereDate('created_at', $request->date);
         }
 
-        // Get paginated results
-        $purchases = $query->latest()->paginate(10);
+        // Get statistics
+        $totalPurchases = PurchaseHistory::count();
+        $completedPurchases = PurchaseHistory::where('status', 'completed')->count();
+        $pendingPurchases = PurchaseHistory::where('status', 'pending')->count();
+        $totalRevenue = PurchaseHistory::where('status', 'completed')->sum('amount');
+
+        // Get paginated results with items count
+        $purchases = $query->withCount('items')->latest()->paginate(10);
 
         if ($request->ajax()) {
             return response()->json([
                 'purchases' => $purchases,
-                'view' => view('partials.purchase-history-table', compact('purchases'))->render()
+                'statistics' => [
+                    'totalPurchases' => $totalPurchases,
+                    'completedPurchases' => $completedPurchases,
+                    'pendingPurchases' => $pendingPurchases,
+                    'totalRevenue' => $totalRevenue
+                ],
+                'view' => view('partials.purchase-history-table', compact('purchases', 'totalPurchases', 'completedPurchases', 'pendingPurchases', 'totalRevenue'))->render()
             ]);
         }
 
-        return view('history', compact('purchases'));
+        return view('history', compact('purchases', 'totalPurchases', 'completedPurchases', 'pendingPurchases', 'totalRevenue'));
     }
 
     public function show($id)
@@ -61,6 +73,12 @@ class PurchaseHistoryController extends Controller
             'message' => 'Download functionality will be implemented here',
             'purchase' => $purchase
         ]);
+    }
+
+    public function print($id)
+    {
+        $purchase = PurchaseHistory::with('items')->findOrFail($id);
+        return view('purchase.print', compact('purchase'));
     }
 
     // Helper method to generate a unique order ID

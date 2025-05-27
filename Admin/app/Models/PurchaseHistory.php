@@ -15,10 +15,23 @@ class PurchaseHistory extends Model
         'customer_email',
         'amount',
         'status',
-        'notes'
+        'notes',
+        'payment_method'
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
+
+    public function items()
+    {
+        return $this->hasMany(PurchaseItem::class);
+    }
+
+    public function getItemsCountAttribute()
+    {
+        return $this->items()->count();
+    }
 }
