@@ -60,6 +60,14 @@ return [
             'report' => false,
         ],
 
+        'shared' => [
+            'driver' => 'local',
+            'root' => env('SHARED_STORAGE_PATH', '/path/to/shared/storage'),
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*
