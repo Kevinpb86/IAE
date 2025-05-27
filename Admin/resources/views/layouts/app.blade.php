@@ -26,13 +26,17 @@
                             <i class="fas fa-users mr-2 flex-shrink-0 h-4 w-5"></i>
                             Input Data
                         </a>
+                        <a href="{{ url('history') }}" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ Request::is('history') ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-700 hover:bg-white hover:shadow-sm' }} transition-all duration-200">
+                            <i class="fas fa-history mr-2 flex-shrink-0 h-4 w-5"></i>
+                            Purchase History
+                        </a>
                         <a href="#" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200">
                             <i class="fas fa-chart-bar mr-2 flex-shrink-0 h-4 w-5"></i>
                             Reports
                         </a>
                         <div class="mt-10">
                             <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Management</p>
-                            <a href="#" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200">
+                            <a href="{{ route('settings.index') }}" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ Request::is('settings') ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-700 hover:bg-white hover:shadow-sm' }} transition-all duration-200">
                                 <i class="fas fa-cog mr-4 flex-shrink-0 h-5 w-5"></i>
                                 Settings
                             </a>

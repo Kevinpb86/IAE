@@ -23,6 +23,15 @@
                     </div>
                     
                     <div class="form-group">
+                        <label for="product_gender">Gender</label>
+                        <select class="form-control" id="product_gender" name="product_gender">
+                            <option value="">Select gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="product_category">Category</label>
                         <select class="form-control" id="product_category" name="product_category">
                             <option value="">Select a category</option>
@@ -37,49 +46,10 @@
                         <label for="product_price">Price ($)</label>
                         <input type="number" step="0.01" class="form-control" id="product_price" name="product_price" placeholder="0.00">
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Rating</label>
-                        <div class="rating">
-                            <span class="star"><i class="fas fa-star"></i></span>
-                            <span class="star"><i class="fas fa-star"></i></span>
-                            <span class="star"><i class="fas fa-star"></i></span>
-                            <span class="star"><i class="far fa-star"></i></span>
-                            <span class="star"><i class="far fa-star"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product Details Card -->
-            <div class="form-card">
-                <div class="card-header">
-                    <h2>Product Details</h2>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="product_description">Description</label>
-                        <textarea class="form-control" id="product_description" name="product_description" rows="3" placeholder="Enter product description"></textarea>
-                    </div>
-                    
+
                     <div class="form-group">
                         <label for="product_stock">Stock Quantity</label>
                         <input type="number" class="form-control" id="product_stock" name="product_stock" placeholder="Enter stock quantity">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Available Colors</label>
-                        <div class="color-options">
-                            <div class="color-option active" style="background-color: #BDB298;"></div>
-                            <div class="color-option" style="background-color: #A4A4A4;"></div>
-                            <div class="color-option" style="background-color: #F7A839;"></div>
-                            <div class="color-option" style="background-color: #73A9C2;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="discount">Discount (%)</label>
-                        <input type="number" class="form-control" id="discount" name="discount" placeholder="Enter discount percentage">
                     </div>
                 </div>
             </div>
@@ -137,23 +107,6 @@
                             <input type="checkbox" class="form-check-input" id="size_xl" name="sizes[]" value="XL">
                             <label class="form-check-label" for="size_xl">Extra Large (XL)</label>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="featured">Featured Product</label>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="featured" name="featured" value="1">
-                            <label class="form-check-label" for="featured">Set as featured product</label>
-                        </div>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary">
-                            <i class="fas fa-cart-plus"></i> Add To Cart
-                        </button>
-                        <button type="button" class="btn btn-outline">
-                            <i class="fas fa-heart"></i> Add To Wishlist
-                        </button>
                     </div>
                 </div>
             </div>
