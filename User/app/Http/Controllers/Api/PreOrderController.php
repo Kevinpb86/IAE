@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\PreOrder;
 use Illuminate\Http\Request;
 
 class PreOrderController extends Controller
 {
-    private static $preOrders = []; // Array untuk menyimpan data sementara
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -20,17 +19,14 @@ class PreOrderController extends Controller
             'additional_notes' => 'nullable|string|max:1000',
         ]);
 
-        $data = $validated;
-
-        // Simpan data ke array sementara
-        $data['id'] = count(self::$preOrders) + 1; // Tambahkan ID unik untuk setiap pre-order
-        self::$preOrders[] = $data;
+        // Simpan data ke database
+        $preOrder = PreOrder::create($validated);
 
         // Periksa apakah request menginginkan respons JSON (API call)
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
                 'message' => 'Pre-order berhasil disimpan',
-                'data' => $data,
+                'data' => $preOrder,
             ], 201);
         }
 
@@ -40,14 +36,17 @@ class PreOrderController extends Controller
 
     public function index()
     {
-        // Kembalikan semua data pre-order
-        return response()->json(self::$preOrders);
+        // Ambil semua data pre-order dari database
+        $preOrders = PreOrder::all();
+
+        // Kembalikan data dalam format JSON
+        return response()->json($preOrders);
     }
 
     public function show($id)
     {
         // Cari pre-order berdasarkan ID
-        $preOrder = collect(self::$preOrders)->firstWhere('id', $id);
+        $preOrder = PreOrder::find($id);
 
         // Jika pre-order tidak ditemukan, kembalikan respons error
         if (!$preOrder) {
