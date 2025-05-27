@@ -1,29 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
+use App\Services\UserService;
+use Illuminate\Http\Request;
 
-class UserApiController extends Controller
+class UserController extends Controller
 {
-    // Contoh: Mendapatkan data user berdasarkan ID
-    public function getUserById($id)
+    public function index()
     {
-        // Dummy response, ganti dengan logic sesuai kebutuhan
-        return response()->json([
-            'id' => $id,
-            'name' => 'User ' . $id,
-            'email' => 'user' . $id . '@example.com',
-        ]);
+        $users = UserService::getAllUsers();
+
+        return response()->json($users);
     }
 
-    // Contoh: Mendapatkan daftar produk dari ProductService (Admin)
-    public function getProductsFromProductService()
+    public function store(Request $request)
     {
-        // Ganti URL berikut dengan URL API ProductService (Admin) yang sebenarnya
-        $response = Http::get('http://localhost:8001/api/products');
-        return $response->json();
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+        ]);
+        $user = UserService::addUser($request->name, $request->email);
+        return response()->json($user, 201);
     }
-} 
+
+    public function show($id)
+    {
+        $user = UserService::getUserById($id);
+        if ($user) {
+            return response()->json($user);
+        }
+        return response()->json(['message' => 'User not found'], 404);
+    }
+}

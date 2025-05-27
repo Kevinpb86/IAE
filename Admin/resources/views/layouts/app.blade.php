@@ -10,8 +10,8 @@
 <body class="bg-gray-50">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
-        <aside class="hidden md:flex w-72 flex-shrink-0">
-            <div class="flex flex-col w-72" style="background-color: #f3efec">
+        <aside class="hidden md:flex w-72 flex-shrink-0 fixed h-screen">
+            <div class="flex flex-col w-72 h-full" style="background-color: #f3efec">
                 <div class="flex flex-col flex-grow pt-8 overflow-y-auto">
                     <div class="px-6">
                         <h1 class="text-2xl font-semibold text-gray-800">Admin Dashboard</h1>
@@ -26,21 +26,16 @@
                             <i class="fas fa-users mr-2 flex-shrink-0 h-4 w-5"></i>
                             Input Data
                         </a>
-                        <a href="#" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200">
-                            <i class="fas fa-chart-bar mr-2 flex-shrink-0 h-4 w-5"></i>
-                            Reports
+                        <a href="{{ url('history') }}" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ Request::is('history') ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-700 hover:bg-white hover:shadow-sm' }} transition-all duration-200">
+                            <i class="fas fa-history mr-2 flex-shrink-0 h-4 w-5"></i>
+                            Purchase History
                         </a>
-                        <div class="mt-10">
-                            <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Management</p>
-                            <a href="#" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200">
-                                <i class="fas fa-cog mr-4 flex-shrink-0 h-5 w-5"></i>
-                                Settings
-                            </a>
-                            <a href="#" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-white hover:shadow-sm transition-all duration-200">
-                                <i class="fas fa-bell mr-4 flex-shrink-0 h-5 w-5"></i>
-                                Notifications
-                            </a>
-                        </div>
+
+                        <a href="{{ url('queue') }}" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ Request::is('queue') ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-700 hover:bg-white hover:shadow-sm' }} transition-all duration-200">
+                            <i class="fas fa-list mr-2 flex-shrink-0 h-4 w-5"></i>
+                            PO Queue
+                        </a>
+
                     </nav>
                     <div class="p-6 border-t border-gray-200 mt-auto">
                         <div class="flex items-center">
@@ -59,7 +54,7 @@
             </div>
         </aside>
         <!-- Main Content -->
-        <div class="flex-1">
+        <div class="flex-1 md:ml-72">
             @yield('content')
         </div>
     </div>
