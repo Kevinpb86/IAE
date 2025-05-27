@@ -1,35 +1,40 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Services\ProductService;
 
 class ProductApiController extends Controller
 {
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
     // GET /api/products
     public function index()
     {
-        return response()->json(Product::all());
+        $products = $this->productService->getAllProducts();
+        return response()->json(['products' => $products], 200);
     }
 
     // POST /api/products
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'category' => 'required|string',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
+        $validated = $request->validate([
+            'product_name' => 'required|string',
+            'category'     => 'required|string',
+            'gender'       => 'required|string|in:male,female,unisex',
+            'size'         => 'required|string',
+            'price'        => 'required|numeric',
+            'stock'        => 'required|integer',
         ]);
 
-        $product = Product::create([
-            'name' => $request->name,
-            'category' => $request->category,
-            'price' => $request->price,
-            'stock' => $request->stock,
-        ]);
+        $product = $this->productService->createProduct($validated);
 
         return response()->json([
             'message' => 'Product created successfully',
@@ -37,4 +42,3 @@ class ProductApiController extends Controller
         ], 201);
     }
 }
-

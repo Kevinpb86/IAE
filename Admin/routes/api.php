@@ -2,9 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\ProductApiController;
+use App\Http\Controllers\Api\ProductApiController;
 
-// Route::middleware('api')->group(function () { // Comment this out temporarily
+Route::middleware('api')->group(function () {
     Route::get('/products', [ProductApiController::class, 'index']);
     Route::post('/products', [ProductApiController::class, 'store']);
-// }); // Comment this out temporarily
+    
+    Route::get('/test-api', function () {
+        return response()->json(['message' => 'API is working']);
+    });
+});
