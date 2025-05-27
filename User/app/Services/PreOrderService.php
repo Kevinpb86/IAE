@@ -2,20 +2,17 @@
 
 namespace App\Services;
 
+use App\Models\PreOrder;
+
 class PreOrderService
 {
-    protected static $preorders = [];
-
     public static function addPreOrder($data)
     {
-        $id = count(self::$preorders) + 1;
-        $data['id'] = $id;
-        self::$preorders[] = $data;
-        return $data;
+        return PreOrder::create($data);
     }
 
     public static function getAllPreOrders()
     {
-        return self::$preorders;
+        return PreOrder::all();
     }
-} 
+}

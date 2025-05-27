@@ -41,6 +41,7 @@ class PurchaseHistoryController extends Controller
         // Get paginated results with items count
         $purchases = $query->withCount('items')->latest()->paginate(10);
 
+
         if ($request->ajax()) {
             return response()->json([
                 'purchases' => $purchases,

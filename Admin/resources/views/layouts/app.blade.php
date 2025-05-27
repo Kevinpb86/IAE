@@ -30,10 +30,12 @@
                             <i class="fas fa-history mr-2 flex-shrink-0 h-4 w-5"></i>
                             Purchase History
                         </a>
+
                         <a href="{{ url('queue') }}" class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ Request::is('queue') ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-700 hover:bg-white hover:shadow-sm' }} transition-all duration-200">
                             <i class="fas fa-list mr-2 flex-shrink-0 h-4 w-5"></i>
                             PO Queue
                         </a>
+
                     </nav>
                     <div class="p-6 border-t border-gray-200 mt-auto">
                         <div class="flex items-center">

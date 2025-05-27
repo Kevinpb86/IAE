@@ -17,6 +17,7 @@ class PurchaseHistory extends Model
         'status',
         'notes',
         'payment_method'
+
     ];
 
     protected $casts = [
