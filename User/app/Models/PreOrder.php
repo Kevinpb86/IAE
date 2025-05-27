@@ -10,13 +10,11 @@ class PreOrder extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'product_id',
+        'product',
         'quantity',
-        'notes',
         'address',
-        'phone',
+        'phone_number',
         'email',
-        'additional_notes', // Tambahkan field ini
+        'additional_notes',
     ];
 }

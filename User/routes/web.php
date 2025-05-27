@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PreOrderController;
+use App\Http\Controllers\ProductController;
 
 
 // Public Routes
@@ -28,6 +29,10 @@ Route::post('/register', [RegisterController::class, 'register']);
 // Pre-order Routes
 Route::get('/preorder/form', [PreOrderController::class, 'showForm'])->name('preorder.form');
 Route::post('/preorder/store', [PreOrderController::class, 'store'])->name('preorder.store');
+
+// Product Routes
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {

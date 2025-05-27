@@ -35,8 +35,8 @@ return [
         ],
     ],
 
-    'user_service' => [
-        'url' => env('USER_SERVICE_URL'),
+    'admin_service' => [
+        'url' => env('ADMIN_SERVICE_URL'),
     ],
 
 
