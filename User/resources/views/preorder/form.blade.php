@@ -212,4 +212,35 @@
         }
     }
 </style>
-@endsection 
+
+<script>
+    document.querySelector('form').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Mencegah reload halaman
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/api/preorders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert('Pre-order berhasil: ' + JSON.stringify(result));
+            } else {
+                const error = await response.json();
+                alert('Terjadi kesalahan: ' + JSON.stringify(error));
+            }
+        } catch (err) {
+            console.error('Error:', err);
+            alert('Gagal mengirim data.');
+        }
+    });
+</script>
+@endsection
