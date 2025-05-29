@@ -6,7 +6,7 @@
 <div class="overflow-x-auto px-25">
     <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
         <thead>
-            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+            <tr class="bg-[#f3efec] text-gray-600 uppercase text-sm leading-normal">
                 <th class="py-3 px-6 text-left">Image</th>
                 <th class="py-3 px-6 text-left">Product Name</th>
                 <th class="py-3 px-6 text-left">Category</th>
@@ -149,7 +149,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                     'X-HTTP-Method-Override': 'PUT'
                                 }
                             })
-                            .then(response => response.json())
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
                             .then(data => {
                                 if (!data.success) {
                                     throw new Error(data.message || 'Something went wrong');
