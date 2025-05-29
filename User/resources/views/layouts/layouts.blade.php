@@ -47,7 +47,7 @@
                     <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
                         <a href="{{ route('preorder.form') }}" class="font-medium text-primary hover:text-gray-600">Form</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">About</a>
-                        <a href="#" class="font-medium text-gray-700 hover:text-primary">Shop</a>
+                        <a href="{{ route('shop') }}" class="font-medium text-gray-700 hover:text-primary">Shop</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Pages</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Blog</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary"><i class="fas fa-search"></i></a>

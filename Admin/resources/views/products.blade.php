@@ -194,58 +194,37 @@ document.addEventListener('DOMContentLoaded', function() {
             const productId = this.dataset.productId;
             const productName = this.dataset.productName;
             
-            // First confirmation
+            // Single confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
                 text: `Do you want to delete "${productName}"?`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, I want to delete it!',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
                 cancelButtonText: 'No, cancel!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Second confirmation
-                    Swal.fire({
-                        title: 'One more step!',
-                        text: "Please type 'DELETE' to confirm deletion",
-                        icon: 'warning',
-                        input: 'text',
-                        inputPlaceholder: 'Type DELETE here',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'No, cancel!',
-                        inputValidator: (value) => {
-                            if (value !== 'DELETE') {
-                                return 'Please type DELETE to confirm';
-                            }
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Create and submit the form
-                            const form = document.createElement('form');
-                            form.method = 'POST';
-                            form.action = `/products/${productId}`;
-                            
-                            const csrfToken = document.createElement('input');
-                            csrfToken.type = 'hidden';
-                            csrfToken.name = '_token';
-                            csrfToken.value = '{{ csrf_token() }}';
-                            
-                            const methodField = document.createElement('input');
-                            methodField.type = 'hidden';
-                            methodField.name = '_method';
-                            methodField.value = 'DELETE';
-                            
-                            form.appendChild(csrfToken);
-                            form.appendChild(methodField);
-                            document.body.appendChild(form);
-                            form.submit();
-                        }
-                    });
+                    // Create and submit the form
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/products/${productId}`;
+                    
+                    const csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = '_token';
+                    csrfToken.value = '{{ csrf_token() }}';
+                    
+                    const methodField = document.createElement('input');
+                    methodField.type = 'hidden';
+                    methodField.name = '_method';
+                    methodField.value = 'DELETE';
+                    
+                    form.appendChild(csrfToken);
+                    form.appendChild(methodField);
+                    document.body.appendChild(form);
+                    form.submit();
                 }
             });
         });

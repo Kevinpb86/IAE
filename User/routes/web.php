@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PreOrderController;
+use App\Http\Controllers\ShopController;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -40,6 +41,8 @@ Route::post('/preorder/store', [PreOrderController::class, 'store'])->name('preo
 // Product Routes
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
+// Shop Route
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
@@ -64,4 +67,8 @@ Route::middleware(['auth'])->group(function () {
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/debug-db-config', function () {
+    return config('database.connections.admin');
+});
 

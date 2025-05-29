@@ -18,7 +18,22 @@ class ProductApiController extends Controller
 
         $products = json_decode(file_get_contents($filePath), true);
 
-        return response()->json($products);
+        // Transform the data to match the expected format in the shop view
+        $transformedProducts = array_map(function($product) {
+            return [
+                'id' => $product['id'],
+                'name' => $product['product_name'],
+                'price' => $product['price'],
+                'image_url' => $product['image_url'] ?? 'https://via.placeholder.com/300x400',
+                'category' => $product['category'],
+                'gender' => $product['gender'],
+                'size' => $product['size'],
+                'stock' => $product['stock'],
+                'created_at' => $product['created_at']
+            ];
+        }, $products);
+
+        return response()->json($transformedProducts);
     }
 
     // POST /api/products
@@ -31,6 +46,7 @@ class ProductApiController extends Controller
             'size' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
+            'image_url' => 'nullable|string',
         ]);
 
         $filePath = storage_path('app/products.json');
@@ -40,8 +56,8 @@ class ProductApiController extends Controller
             $products = json_decode(file_get_contents($filePath), true);
         }
 
-        // Tambahkan timestamp atau ID opsional
-        $data['id'] = time(); // unik sederhana
+        // Add timestamp and ID
+        $data['id'] = time(); // simple unique ID
         $data['created_at'] = now()->toDateTimeString();
 
         $products[] = $data;
