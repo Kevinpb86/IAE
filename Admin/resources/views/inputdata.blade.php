@@ -120,9 +120,6 @@
                     
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline">
-                            <i class="fas fa-upload"></i> Upload
-                        </button>
-                        <button type="button" class="btn btn-outline">
                             <i class="fas fa-trash"></i> Remove
                         </button>
                     </div>
@@ -388,14 +385,18 @@
     
     .form-check {
         margin-bottom: 8px;
+        display: flex;
+        align-items: center;
     }
     
     .form-check-input {
         margin-right: 8px;
+        margin-top: 0;
     }
     
     .form-check-label {
         color: var(--text-primary);
+        margin-bottom: 0;
     }
     
     @media (max-width: 768px) {
