@@ -38,19 +38,6 @@
                         </a>
 
                     </nav>
-                    <div class="p-6 border-t border-gray-200 mt-auto">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-user text-gray-500"></i>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-700">Admin User</p>
-                                <p class="text-xs text-gray-500">admin@example.com</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </aside>
