@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PurchaseHistoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 
 
 Route::get('/', function () {
@@ -11,12 +12,13 @@ Route::get('/', function () {
 
 Route::get('/products', function () {
     return view('products');
-});
+})->name('products.index');
 
 Route::get('/inputdata', function () {
     return view('inputdata');
 });
 
+Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
 Route::get('/queue', function () {
     return view('queue');
