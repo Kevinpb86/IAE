@@ -14,12 +14,22 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->decimal('price', 10, 2);
-            $table->string('image');
-            $table->decimal('rating', 2, 1)->default(5.0);
             $table->text('description')->nullable();
-            $table->foreignId('category_id')->constrained();
+            $table->decimal('price', 10, 2);
+            $table->integer('stock')->default(0);
+            $table->string('category')->nullable();
+            $table->string('image_url')->nullable();
+            $table->string('sku')->unique()->nullable();
+            $table->decimal('weight', 8, 2)->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->softDeletes();
+
+            // Indexes for better performance
+            $table->index(['status', 'created_at']);
+            $table->index(['category']);
+            $table->index(['stock']);
+            $table->index(['name']);
         });
     }
 
