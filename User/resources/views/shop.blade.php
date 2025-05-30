@@ -39,9 +39,16 @@
                 <div class="p-4">
                     <h3 class="text-lg font-semibold mb-2">{{ $product['name'] ?? 'Product Name' }}</h3>
                     <p class="text-gray-600 mb-2">${{ number_format($product['price'] ?? 0, 2) }}</p>
-                    <button class="w-full bg-primary text-white py-2 rounded hover:bg-gray-800 transition duration-300">
-                        Add to Cart
-                    </button>
+                    <form action="{{ route('cart.add') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $product['id'] ?? '' }}">
+                        <input type="hidden" name="name" value="{{ $product['name'] ?? '' }}">
+                        <input type="hidden" name="price" value="{{ $product['price'] ?? 0 }}">
+                        <input type="hidden" name="image_url" value="{{ $product['image_url'] ?? '' }}">
+                        <button type="submit" class="w-full bg-primary text-white py-2 rounded hover:bg-gray-800 transition duration-300">
+                            Add to Cart
+                        </button>
+                    </form>
                 </div>
             </div>
         @empty
@@ -62,4 +69,42 @@
         </nav>
     </div>
 </div>
-@endsection 
+@endsection
+
+@push('scripts')
+<script>
+function addToCart(product) {
+    // Add CSRF token to headers
+    const headers = {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+
+    fetch('{{ route('cart.add') }}', {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(product)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Update cart count in header
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+            cartCount.textContent = data.cart_count;
+        }
+        
+        // Show success message
+        alert(data.message);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to add item to cart');
+    });
+}
+</script>
+@endpush 

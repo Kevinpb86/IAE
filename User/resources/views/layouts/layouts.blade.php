@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Fashion Store</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -75,8 +76,8 @@
                             </div>
                         @endguest
                         <div class="relative">
-                            <a href="#"><i class="fas fa-shopping-cart text-gray-700"></i></a>
-                            <span class="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>
+                            <a href="{{ route('cart') }}"><i class="fas fa-shopping-cart text-gray-700"></i></a>
+                            <span class="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs cart-count">{{ count(session('cart', [])) }}</span>
                         </div>
                     </div>
                     <div class="md:hidden">
@@ -153,5 +154,6 @@
 
     <!-- Custom JS -->
     <script src="{{ asset('js/script.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>
