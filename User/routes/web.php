@@ -26,7 +26,7 @@ Route::get('/register', [RegisterController::class, 'showRegister'])->name('regi
 Route::post('/register', [RegisterController::class, 'register']);
 
 // Pre-order Routes
-Route::get('/preorder/form', [PreOrderController::class, 'form'])->name('preorder.form');
+Route::get('/preorder/form', [PreOrderController::class, 'showForm'])->name('preorder.form');
 Route::post('/preorder/store', [PreOrderController::class, 'store'])->name('preorder.store');
 
 // Shop Route
