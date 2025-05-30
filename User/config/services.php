@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'admin_service' => [
+        'url' => env('ADMIN_SERVICE_URL'),
+    ],
+
+
 ];

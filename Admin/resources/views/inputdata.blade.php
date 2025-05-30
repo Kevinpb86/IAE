@@ -7,7 +7,23 @@
         <p>Fill in the product details to add to your catalog</p>
     </div>
     
-    <form action="/submit-data" method="POST" enctype="multipart/form-data">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+    
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
         <div class="form-container">
@@ -19,67 +35,63 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="product_name">Product Name</label>
-                        <input type="text" class="form-control" id="product_name" name="product_name" placeholder="Enter product name">
+                        <input type="text" class="form-control @error('product_name') is-invalid @enderror" 
+                               id="product_name" name="product_name" 
+                               value="{{ old('product_name') }}" 
+                               placeholder="Enter product name">
+                        @error('product_name')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product_gender">Gender</label>
+                        <select class="form-control @error('product_gender') is-invalid @enderror" 
+                                id="product_gender" name="product_gender">
+                            <option value="">Select gender</option>
+                            <option value="male" {{ old('product_gender') == 'male' ? 'selected' : '' }}>Male</option>
+                            <option value="female" {{ old('product_gender') == 'female' ? 'selected' : '' }}>Female</option>
+                        </select>
+                        @error('product_gender')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="form-group">
                         <label for="product_category">Category</label>
-                        <select class="form-control" id="product_category" name="product_category">
+                        <select class="form-control @error('product_category') is-invalid @enderror" 
+                                id="product_category" name="product_category">
                             <option value="">Select a category</option>
-                            <option value="men">Men's Clothing</option>
-                            <option value="women">Women's Clothing</option>
-                            <option value="accessories">Accessories</option>
-                            <option value="footwear">Footwear</option>
+                            <option value="men" {{ old('product_category') == 'men' ? 'selected' : '' }}>Men's Clothing</option>
+                            <option value="women" {{ old('product_category') == 'women' ? 'selected' : '' }}>Women's Clothing</option>
+                            <option value="accessories" {{ old('product_category') == 'accessories' ? 'selected' : '' }}>Accessories</option>
+                            <option value="footwear" {{ old('product_category') == 'footwear' ? 'selected' : '' }}>Footwear</option>
                         </select>
+                        @error('product_category')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="form-group">
                         <label for="product_price">Price ($)</label>
-                        <input type="number" step="0.01" class="form-control" id="product_price" name="product_price" placeholder="0.00">
+                        <input type="number" step="0.01" class="form-control @error('product_price') is-invalid @enderror" 
+                               id="product_price" name="product_price" 
+                               value="{{ old('product_price') }}" 
+                               placeholder="0.00">
+                        @error('product_price')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Rating</label>
-                        <div class="rating">
-                            <span class="star"><i class="fas fa-star"></i></span>
-                            <span class="star"><i class="fas fa-star"></i></span>
-                            <span class="star"><i class="fas fa-star"></i></span>
-                            <span class="star"><i class="far fa-star"></i></span>
-                            <span class="star"><i class="far fa-star"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product Details Card -->
-            <div class="form-card">
-                <div class="card-header">
-                    <h2>Product Details</h2>
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="product_description">Description</label>
-                        <textarea class="form-control" id="product_description" name="product_description" rows="3" placeholder="Enter product description"></textarea>
-                    </div>
-                    
+
                     <div class="form-group">
                         <label for="product_stock">Stock Quantity</label>
-                        <input type="number" class="form-control" id="product_stock" name="product_stock" placeholder="Enter stock quantity">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Available Colors</label>
-                        <div class="color-options">
-                            <div class="color-option active" style="background-color: #BDB298;"></div>
-                            <div class="color-option" style="background-color: #A4A4A4;"></div>
-                            <div class="color-option" style="background-color: #F7A839;"></div>
-                            <div class="color-option" style="background-color: #73A9C2;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="discount">Discount (%)</label>
-                        <input type="number" class="form-control" id="discount" name="discount" placeholder="Enter discount percentage">
+                        <input type="number" class="form-control @error('product_stock') is-invalid @enderror" 
+                               id="product_stock" name="product_stock" 
+                               value="{{ old('product_stock') }}" 
+                               placeholder="Enter stock quantity">
+                        @error('product_stock')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -92,7 +104,11 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="product_image">Upload Image</label>
-                        <input type="file" class="form-control" id="product_image" name="product_image" accept="image/*">
+                        <input type="file" class="form-control @error('product_image') is-invalid @enderror" 
+                               id="product_image" name="product_image" accept="image/*">
+                        @error('product_image')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="image-preview">
@@ -103,9 +119,6 @@
                     </div>
                     
                     <div class="btn-group">
-                        <button type="button" class="btn btn-outline">
-                            <i class="fas fa-upload"></i> Upload
-                        </button>
                         <button type="button" class="btn btn-outline">
                             <i class="fas fa-trash"></i> Remove
                         </button>
@@ -121,39 +134,29 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="product_size">Available Sizes</label>
+                        @error('sizes')
+                            <span class="invalid-feedback d-block">{{ $message }}</span>
+                        @enderror
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="size_s" name="sizes[]" value="S">
+                            <input type="checkbox" class="form-check-input" id="size_s" name="sizes[]" value="S"
+                                   {{ in_array('S', old('sizes', [])) ? 'checked' : '' }}>
                             <label class="form-check-label" for="size_s">Small (S)</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="size_m" name="sizes[]" value="M">
+                            <input type="checkbox" class="form-check-input" id="size_m" name="sizes[]" value="M"
+                                   {{ in_array('M', old('sizes', [])) ? 'checked' : '' }}>
                             <label class="form-check-label" for="size_m">Medium (M)</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="size_l" name="sizes[]" value="L">
+                            <input type="checkbox" class="form-check-input" id="size_l" name="sizes[]" value="L"
+                                   {{ in_array('L', old('sizes', [])) ? 'checked' : '' }}>
                             <label class="form-check-label" for="size_l">Large (L)</label>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="size_xl" name="sizes[]" value="XL">
+                            <input type="checkbox" class="form-check-input" id="size_xl" name="sizes[]" value="XL"
+                                   {{ in_array('XL', old('sizes', [])) ? 'checked' : '' }}>
                             <label class="form-check-label" for="size_xl">Extra Large (XL)</label>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="featured">Featured Product</label>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="featured" name="featured" value="1">
-                            <label class="form-check-label" for="featured">Set as featured product</label>
-                        </div>
-                    </div>
-                    
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary">
-                            <i class="fas fa-cart-plus"></i> Add To Cart
-                        </button>
-                        <button type="button" class="btn btn-outline">
-                            <i class="fas fa-heart"></i> Add To Wishlist
-                        </button>
                     </div>
                 </div>
             </div>
@@ -382,14 +385,18 @@
     
     .form-check {
         margin-bottom: 8px;
+        display: flex;
+        align-items: center;
     }
     
     .form-check-input {
         margin-right: 8px;
+        margin-top: 0;
     }
     
     .form-check-label {
         color: var(--text-primary);
+        margin-bottom: 0;
     }
     
     @media (max-width: 768px) {
@@ -397,35 +404,96 @@
             grid-template-columns: 1fr;
         }
     }
+    
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+    
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+    
+    .invalid-feedback {
+        display: block;
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .is-invalid {
+        border-color: #dc3545;
+    }
 </style>
 
 <script>
-    // Preview image upload
+    // Preview image upload and paste
     const imageInput = document.getElementById('product_image');
     const imagePreview = document.querySelector('.image-preview');
     const previewPlaceholder = document.querySelector('.preview-placeholder');
     
+    // Function to update image preview
+    function updateImagePreview(imageData) {
+        previewPlaceholder.style.display = 'none';
+        
+        const img = document.createElement('img');
+        img.src = imageData;
+        
+        // Remove any existing image
+        const existingImg = imagePreview.querySelector('img');
+        if (existingImg) {
+            imagePreview.removeChild(existingImg);
+        }
+        
+        imagePreview.appendChild(img);
+    }
+    
+    // Handle file upload
     imageInput.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
             const reader = new FileReader();
             
             reader.addEventListener('load', function() {
-                previewPlaceholder.style.display = 'none';
-                
-                const img = document.createElement('img');
-                img.src = reader.result;
-                
-                // Remove any existing image
-                const existingImg = imagePreview.querySelector('img');
-                if (existingImg) {
-                    imagePreview.removeChild(existingImg);
-                }
-                
-                imagePreview.appendChild(img);
+                updateImagePreview(reader.result);
             });
             
             reader.readAsDataURL(file);
+        }
+    });
+    
+    // Handle paste event
+    document.addEventListener('paste', function(e) {
+        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                const blob = items[i].getAsFile();
+                const reader = new FileReader();
+                
+                reader.addEventListener('load', function() {
+                    updateImagePreview(reader.result);
+                    
+                    // Create a new File object and set it to the input
+                    const file = new File([blob], 'pasted-image.png', { type: 'image/png' });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    imageInput.files = dataTransfer.files;
+                });
+                
+                reader.readAsDataURL(blob);
+                break;
+            }
         }
     });
     
