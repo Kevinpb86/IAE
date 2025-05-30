@@ -26,10 +26,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Registration Routes
 Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
@@ -39,11 +36,10 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/preorder/form', [PreOrderController::class, 'showForm'])->name('preorder.form');
 Route::post('/preorder/store', [PreOrderController::class, 'store'])->name('preorder.store');
 
-// Product Routes
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-
 // Shop Route
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/shop', function () {
+    return view('shop.index'); // Pastikan view ini ada, atau sesuaikan dengan kebutuhan
+})->name('shop');
 
 // Cart Route
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
@@ -72,8 +68,4 @@ Route::middleware(['auth'])->group(function () {
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::get('/debug-db-config', function () {
-    return config('database.connections.admin');
-});
 
