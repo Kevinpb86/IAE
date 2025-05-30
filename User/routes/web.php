@@ -37,9 +37,7 @@ Route::get('/preorder/form', [PreOrderController::class, 'showForm'])->name('pre
 Route::post('/preorder/store', [PreOrderController::class, 'store'])->name('preorder.store');
 
 // Shop Route
-Route::get('/shop', function () {
-    return view('shop.index'); // Pastikan view ini ada, atau sesuaikan dengan kebutuhan
-})->name('shop');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
 // Cart Route
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
