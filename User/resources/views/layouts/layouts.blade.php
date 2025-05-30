@@ -47,14 +47,33 @@
                     <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
                         <a href="{{ route('preorder.form') }}" class="font-medium text-primary hover:text-gray-600">Form</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">About</a>
-                        <a href="#" class="font-medium text-gray-700 hover:text-primary">Shop</a>
+                        <a href="{{ route('shop') }}" class="font-medium text-gray-700 hover:text-primary">Shop</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Pages</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary">Blog</a>
                         <a href="#" class="font-medium text-gray-700 hover:text-primary"><i class="fas fa-search"></i></a>
                     </div>
                     <div class="hidden md:flex items-center space-x-4">
                         <a href="#" class="bg-primary text-white px-6 py-2 rounded font-medium">SHOP NOW</a>
-                        <a href="{{ route('login') }}" class="bg-[#f3efec] text-primary border border-primary px-6 py-2 rounded font-medium hover:bg-primary hover:text-white transition duration-300">LOGIN</a>
+                        @guest
+                            <a href="{{ route('login') }}" class="bg-[#f3efec] text-primary border border-primary px-6 py-2 rounded font-medium hover:bg-primary hover:text-white transition duration-300">LOGIN</a>
+                        @else
+                            <div class="relative group">
+                                <button class="flex items-center space-x-2 bg-[#f3efec] text-primary border border-primary px-6 py-2 rounded font-medium hover:bg-primary hover:text-white transition duration-300">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>{{ Auth::user()->name }}</span>
+                                </button>
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @endguest
                         <div class="relative">
                             <a href="#"><i class="fas fa-shopping-cart text-gray-700"></i></a>
                             <span class="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>

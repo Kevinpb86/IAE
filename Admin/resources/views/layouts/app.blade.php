@@ -6,6 +6,7 @@
     <title>Admin Dashboard</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-50">
     <div class="min-h-screen flex">
@@ -37,19 +38,6 @@
                         </a>
 
                     </nav>
-                    <div class="p-6 border-t border-gray-200 mt-auto">
-                        <div class="flex items-center">
-                            <div class="flex-shrink-0">
-                                <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-user text-gray-500"></i>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-700">Admin User</p>
-                                <p class="text-xs text-gray-500">admin@example.com</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </aside>
@@ -58,5 +46,17 @@
             @yield('content')
         </div>
     </div>
+    @if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: "{{ session('success') }}",
+            timer: 3000,
+            showConfirmButton: false
+        });
+    </script>
+    @endif
+    @stack('scripts')
 </body>
 </html>

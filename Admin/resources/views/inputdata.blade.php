@@ -120,9 +120,6 @@
                     
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline">
-                            <i class="fas fa-upload"></i> Upload
-                        </button>
-                        <button type="button" class="btn btn-outline">
                             <i class="fas fa-trash"></i> Remove
                         </button>
                     </div>
@@ -388,14 +385,18 @@
     
     .form-check {
         margin-bottom: 8px;
+        display: flex;
+        align-items: center;
     }
     
     .form-check-input {
         margin-right: 8px;
+        margin-top: 0;
     }
     
     .form-check-label {
         color: var(--text-primary);
+        margin-bottom: 0;
     }
     
     @media (max-width: 768px) {
@@ -436,32 +437,63 @@
 </style>
 
 <script>
-    // Preview image upload
+    // Preview image upload and paste
     const imageInput = document.getElementById('product_image');
     const imagePreview = document.querySelector('.image-preview');
     const previewPlaceholder = document.querySelector('.preview-placeholder');
     
+    // Function to update image preview
+    function updateImagePreview(imageData) {
+        previewPlaceholder.style.display = 'none';
+        
+        const img = document.createElement('img');
+        img.src = imageData;
+        
+        // Remove any existing image
+        const existingImg = imagePreview.querySelector('img');
+        if (existingImg) {
+            imagePreview.removeChild(existingImg);
+        }
+        
+        imagePreview.appendChild(img);
+    }
+    
+    // Handle file upload
     imageInput.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
             const reader = new FileReader();
             
             reader.addEventListener('load', function() {
-                previewPlaceholder.style.display = 'none';
-                
-                const img = document.createElement('img');
-                img.src = reader.result;
-                
-                // Remove any existing image
-                const existingImg = imagePreview.querySelector('img');
-                if (existingImg) {
-                    imagePreview.removeChild(existingImg);
-                }
-                
-                imagePreview.appendChild(img);
+                updateImagePreview(reader.result);
             });
             
             reader.readAsDataURL(file);
+        }
+    });
+    
+    // Handle paste event
+    document.addEventListener('paste', function(e) {
+        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                const blob = items[i].getAsFile();
+                const reader = new FileReader();
+                
+                reader.addEventListener('load', function() {
+                    updateImagePreview(reader.result);
+                    
+                    // Create a new File object and set it to the input
+                    const file = new File([blob], 'pasted-image.png', { type: 'image/png' });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    imageInput.files = dataTransfer.files;
+                });
+                
+                reader.readAsDataURL(blob);
+                break;
+            }
         }
     });
     
