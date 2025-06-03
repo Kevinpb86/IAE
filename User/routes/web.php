@@ -67,3 +67,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/history', function () {
+    return view('history');
+})->name('history')->middleware('auth');
+
