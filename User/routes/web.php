@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PreOrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -47,11 +48,15 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
 // Cart Routes
 Route::middleware(['auth'])->group(function () {
-Route::get('/cart', [CartController::class, 'index'])->name('cart');
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::put('/cart/{cart}/update', [CartController::class, 'updateQuantity'])->name('cart.update');
     Route::delete('/cart/{cart}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::delete('/cart', [CartController::class, 'clearCart'])->name('cart.clear');
+    
+    // Checkout Routes
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('/api/orders/process', [CheckoutController::class, 'process'])->name('checkout.process');
 });
 
 // Protected Routes
