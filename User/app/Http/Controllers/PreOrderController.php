@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\PreOrder;
 
 class PreOrderController extends Controller
 {
@@ -24,8 +25,19 @@ class PreOrderController extends Controller
             'notes' => 'nullable|string'
         ]);
 
-        // Here you would typically save the pre-order to the database
-        // For now, we'll just redirect back with a success message
+        // Add user_id to the validated data
+        $validated['user_id'] = auth()->id();
+
+        // Create the pre-order
+        $preOrder = PreOrder::create($validated);
+
         return redirect()->back()->with('success', 'Pre-order submitted successfully!');
+    }
+
+    public function index()
+    {
+        // Get only the current user's pre-orders
+        $preOrders = PreOrder::where('user_id', auth()->id())->get();
+        return view('preorder.index', compact('preOrders'));
     }
 } 

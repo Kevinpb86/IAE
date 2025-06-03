@@ -76,8 +76,17 @@
                             </div>
                         @endguest
                         <div class="relative">
-                            <a href="{{ route('cart') }}"><i class="fas fa-shopping-cart text-gray-700"></i></a>
-                            <span class="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center text-xs cart-count">{{ count(session('cart', [])) }}</span>
+                            <a href="{{ route('cart') }}" class="relative">
+                                <i class="fas fa-shopping-cart text-gray-700"></i>
+                                @php
+                                    $cartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
+                                @endphp
+                                @if($cartCount > 0)
+                                    <span class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                        {{ $cartCount }}
+                                    </span>
+                                @endif
+                            </a>
                         </div>
                     </div>
                     <div class="md:hidden">

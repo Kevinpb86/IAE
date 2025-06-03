@@ -45,9 +45,14 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 // Shop Route
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
-// Cart Route
+// Cart Routes
+Route::middleware(['auth'])->group(function () {
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::put('/cart/{cart}/update', [CartController::class, 'updateQuantity'])->name('cart.update');
+    Route::delete('/cart/{cart}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::delete('/cart', [CartController::class, 'clearCart'])->name('cart.clear');
+});
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
