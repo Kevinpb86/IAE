@@ -73,7 +73,7 @@
                         <select id="product" name="product_id" class="mt-1 block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg transition-colors duration-200">
                             <option value="">Select a product</option>
                             @foreach($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->name }} - Rp {{ number_format($product->price) }}</option>
+                                <option value="{{ $product->id }}">{{ $product->name }} - ${{ number_format($product->price, 2) }}</option>
                             @endforeach
                         </select>
                     </div>
