@@ -14,15 +14,15 @@
             theme: {
                 extend: {
                     colors: {
-                        ivory: '#111111',
-                        primary: '#ffffff'
+                        ivory: '#f3efec',
+                        primary: '#000000'
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-black text-white font-sans">
+<body class="bg-ivory font-sans">
     <!-- Header -->
     <header>
         <div class="bg-black text-white py-2">
@@ -39,36 +39,36 @@
                 </div>
             </div>
         </div>
-        <nav class="bg-black shadow-md py-4">
+        <nav class="bg-[#f3efec] shadow-md py-4">
             <div class="container mx-auto px-4">
                 <div class="flex justify-between items-center">
                     <a class="flex items-center" href="/">
                         <img src="{{ asset('images/Logo Strave.jpeg') }}" alt="Fashion Store Logo" class="h-10">
                     </a>
                     <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
-                        <a href="{{ route('preorder.form') }}" class="font-medium text-white hover:text-gray-300">Form</a>
-                        <a href="#" class="font-medium text-white hover:text-gray-300">About</a>
-                        <a href="{{ route('shop') }}" class="font-medium text-white hover:text-gray-300">Shop</a>
-                        <a href="#" class="font-medium text-white hover:text-gray-300">Pages</a>
-                        <a href="#" class="font-medium text-white hover:text-gray-300">Blog</a>
-                        <a href="#" class="font-medium text-white hover:text-gray-300"><i class="fas fa-search"></i></a>
+                        <a href="{{ route('preorder.form') }}" class="font-medium text-black hover:text-gray-600">Form</a>
+                        <a href="#" class="font-medium text-gray-700 hover:text-black">About</a>
+                        <a href="{{ route('shop') }}" class="font-medium text-gray-700 hover:text-black">Shop</a>
+                        <a href="#" class="font-medium text-gray-700 hover:text-black">Pages</a>
+                        <a href="#" class="font-medium text-gray-700 hover:text-black">Blog</a>
+                        <a href="#" class="font-medium text-gray-700 hover:text-black"><i class="fas fa-search"></i></a>
                     </div>
                     <div class="hidden md:flex items-center space-x-4">
-                        <a href="#" class="bg-white text-black px-6 py-2 rounded font-medium">SHOP NOW</a>
+                        <a href="#" class="bg-black text-white px-6 py-2 rounded font-medium">SHOP NOW</a>
                         @guest
-                            <a href="{{ route('login') }}" class="bg-black text-white border border-white px-6 py-2 rounded font-medium hover:bg-white hover:text-black transition duration-300">LOGIN</a>
+                            <a href="{{ route('login') }}" class="bg-[#f3efec] text-black border-black px-6 py-2 rounded font-medium hover:bg-black hover:text-white transition duration-300">LOGIN</a>
                         @else
                             <div class="relative group">
-                                <button class="flex items-center space-x-2 bg-black text-white border border-white px-6 py-2 rounded font-medium hover:bg-white hover:text-black transition duration-300">
+                                <button class="flex items-center space-x-2 bg-[#f3efec] text-black border border-black px-6 py-2 rounded font-medium hover:bg-black hover:text-white transition duration-300">
                                     <i class="fas fa-user-circle"></i>
                                     <span>{{ Auth::user()->name }}</span>
                                 </button>
-                                <div class="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg py-1 hidden group-hover:block">
-                                    <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-gray-800">Profile</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-gray-800">Settings</a>
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-800">
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                             Logout
                                         </button>
                                     </form>
@@ -76,12 +76,12 @@
                             </div>
                         @endguest
                         <div class="relative">
-                            <a href="{{ route('cart') }}"><i class="fas fa-shopping-cart text-white"></i></a>
-                            <span class="absolute -top-2 -right-2 bg-white text-black rounded-full w-5 h-5 flex items-center justify-center text-xs cart-count">{{ count(session('cart', [])) }}</span>
+                            <a href="{{ route('cart') }}"><i class="fas fa-shopping-cart text-gray-700"></i></a>
+                            <span class="absolute -top-2 -right-2 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center text-xs cart-count">{{ count(session('cart', [])) }}</span>
                         </div>
                     </div>
                     <div class="md:hidden">
-                        <button class="text-white focus:outline-none">
+                        <button class="text-gray-700 focus:outline-none">
                             <i class="fas fa-bars text-2xl"></i>
                         </button>
                     </div>
@@ -96,23 +96,23 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-black text-white pt-12 pb-6">
+    <footer class="bg-gray-900 text-white pt-12 pb-6">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-lg font-semibold mb-4">About Us</h3>
-                    <p class="text-gray-300 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies.</p>
+                    <p class="text-gray-400 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies.</p>
                     <div class="flex space-x-3">
-                        <a href="#" class="bg-gray-800 hover:bg-white hover:text-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
+                        <a href="#" class="bg-gray-800 hover:bg-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="bg-gray-800 hover:bg-white hover:text-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
+                        <a href="#" class="bg-gray-800 hover:bg-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="bg-gray-800 hover:bg-white hover:text-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
+                        <a href="#" class="bg-gray-800 hover:bg-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="bg-gray-800 hover:bg-white hover:text-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
+                        <a href="#" class="bg-gray-800 hover:bg-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
                             <i class="fab fa-pinterest"></i>
                         </a>
                     </div>
@@ -120,34 +120,34 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Information</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">About Us</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Contact Us</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Terms & Conditions</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Terms & Conditions</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="text-lg font-semibold mb-4">My Account</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">My Account</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Order History</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Wishlist</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Newsletter</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">My Account</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Order History</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Wishlist</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Newsletter</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
-                    <p class="text-gray-300 mb-4">Stay updated with our latest offers and news</p>
+                    <p class="text-gray-400 mb-4">Stay updated with our latest offers and news</p>
                     <form>
                         <div class="flex">
-                            <input type="email" placeholder="Your Email Address" class="px-4 py-2 w-full rounded-l focus:outline-none bg-black text-white border border-white">
-                            <button type="submit" class="bg-white text-black px-4 py-2 rounded-r focus:outline-none">Subscribe</button>
+                            <input type="email" placeholder="Your Email Address" class="px-4 py-2 w-full rounded-l focus:outline-none">
+                            <button type="submit" class="bg-blacktext-white px-4 py-2 rounded-r focus:outline-none">Subscribe</button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-10 pt-6 text-center">
-                <p class="text-gray-300">&copy; 2025 Fashion Store. All Rights Reserved.</p>
+                <p class="text-gray-400">&copy; 2025 Fashion Store. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
