@@ -47,7 +47,7 @@
                     <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
                         <a href="{{ route('preorder.form') }}" class="font-medium text-black hover:text-gray-600">Form</a>
                         <a href="{{ route('shop') }}" class="font-medium text-gray-700 hover:text-black">Shop</a>
-                        <a href="#" class="font-medium text-gray-700 hover:text-black">History</a>
+                        <a href="{{ route('history') }}" class="font-medium text-gray-700 hover:text-black">History</a>
                     </div>
                     <div class="hidden md:flex items-center space-x-4">
                         <a href="#" class="bg-black text-white px-6 py-2 rounded font-medium">SHOP NOW</a>
