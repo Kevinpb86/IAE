@@ -80,10 +80,7 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -105,39 +102,13 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $purchase->created_at->format('M d, Y') }}</div>
-                                <div class="text-xs text-gray-500">{{ $purchase->created_at->format('h:i A') }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-gray-900">${{ number_format($purchase->amount, 2) }}</div>
                                 <div class="text-xs text-gray-500">{{ $purchase->payment_method ?? 'Credit Card' }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                    @if($purchase->status === 'completed') bg-green-100 text-green-800
-                                    @elseif($purchase->status === 'pending') bg-yellow-100 text-yellow-800
-                                    @else bg-red-100 text-red-800
-                                    @endif">
-                                    {{ ucfirst($purchase->status) }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <div class="flex items-center space-x-3">
-                                    <button onclick="viewPurchase({{ $purchase->id }})" class="text-blue-600 hover:text-blue-900 transition-colors duration-200" title="View Details">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button onclick="downloadPurchase({{ $purchase->id }})" class="text-gray-600 hover:text-gray-900 transition-colors duration-200" title="Download Invoice">
-                                        <i class="fas fa-download"></i>
-                                    </button>
-                                    <button onclick="printPurchase({{ $purchase->id }})" class="text-gray-600 hover:text-gray-900 transition-colors duration-200" title="Print Invoice">
-                                        <i class="fas fa-print"></i>
-                                    </button>
-                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-8 text-center">
+                            <td colspan="3" class="px-6 py-8 text-center">
                                 <div class="flex flex-col items-center justify-center text-gray-500">
                                     <i class="fas fa-shopping-cart text-4xl mb-3"></i>
                                     <p class="text-lg font-medium">No purchase records found</p>
