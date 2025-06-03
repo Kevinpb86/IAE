@@ -34,48 +34,34 @@
     </div>
 </section>
 
-<!-- Featured Categories Section -->
+<!-- Featured Products Section -->
 <section class="bg-[#f3efec] py-16">
     <div class="container mx-auto px-4">
-        <h2 class="text-2xl font-semibold text-center mb-10 text-black">Featured Categories</h2>
-        <div class="relative">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-                <div class="bg-black text-white rounded-lg py-6 px-4 text-center transform hover:-translate-y-1 hover:shadow-lg transition duration-300">
-                    <div class="text-3xl mb-3">
-                        <i class="fas fa-shoe-prints"></i>
+        <h2 class="text-2xl font-semibold text-center mb-10 text-black">Featured Products</h2>
+        <div id="featuredProductsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach($products->chunk(5) as $chunkIndex => $chunk)
+                    <div class="carousel-item {{ $chunkIndex === 0 ? 'active' : '' }}">
+                        <div class="d-flex justify-content-center gap-3">
+                            @foreach($chunk as $product)
+                                <div class="bg-white rounded-lg shadow-md overflow-hidden text-center" style="width: 250px;">
+                                    <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->product_name }}" class="w-full h-40 object-contain bg-gray-50 mb-4">
+                                    <h3 class="font-medium text-gray-800 mb-2">{{ $product->product_name }}</h3>
+                                    <div class="text-primary font-semibold text-lg mb-2">${{ number_format($product->price, 2) }}</div>
+                                    <a href="{{ route('shop') }}" class="bg-black text-white px-4 py-2 rounded font-medium inline-block">Shop Now</a>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <p class="font-medium">Shoes</p>
-                </div>
-                <div class="bg-black text-white rounded-lg py-6 px-4 text-center transform hover:-translate-y-1 hover:shadow-lg transition duration-300">
-                    <div class="text-3xl mb-3">
-                        <i class="fas fa-glasses"></i>
-                    </div>
-                    <p class="font-medium">Glasses</p>
-                </div>
-                <div class="bg-black text-white rounded-lg py-6 px-4 text-center transform hover:-translate-y-1 hover:shadow-lg transition duration-300">
-                    <div class="text-3xl mb-3">
-                        <i class="fas fa-tshirt"></i>
-                    </div>
-                    <p class="font-medium">Clothing</p>
-                </div>
-                <div class="bg-black text-white rounded-lg py-6 px-4 text-center transform hover:-translate-y-1 hover:shadow-lg transition duration-300">
-                    <div class="text-3xl mb-3">
-                        <i class="fas fa-shopping-bag"></i>
-                    </div>
-                    <p class="font-medium">Bags</p>
-                </div>
-                <div class="bg-black text-white rounded-lg py-6 px-4 text-center transform hover:-translate-y-1 hover:shadow-lg transition duration-300">
-                    <div class="text-3xl mb-3">
-                        <i class="fas fa-gem"></i>
-                    </div>
-                    <p class="font-medium">Accessories</p>
-                </div>
+                @endforeach
             </div>
-            <button class="absolute left-0 top-1/2 transform -translate-y-1/2 -ml-4 md:-ml-5 bg-black rounded-full shadow-md w-8 h-8 md:w-10 md:h-10 flex items-center justify-center focus:outline-none">
-                <i class="fas fa-chevron-left text-white"></i>
+            <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
             </button>
-            <button class="absolute right-0 top-1/2 transform -translate-y-1/2 -mr-4 md:-mr-5 bg-black rounded-full shadow-md w-8 h-8 md:w-10 md:h-10 flex items-center justify-center focus:outline-none">
-                <i class="fas fa-chevron-right text-white"></i>
+            <button class="carousel-control-next custom-carousel-btn" type="button" data-bs-target="#featuredProductsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
     </div>
@@ -155,5 +141,48 @@
 .object-fit-cover {
     object-fit: cover;
     height: 100%;
+}
+
+
+#featuredProductsCarousel .carousel-control-prev,
+#featuredProductsCarousel .carousel-control-next {
+    width: 50px; /* Adjust control width only for the products carousel */
+}
+
+/* Custom styles for carousel buttons */
+.custom-carousel-btn {
+    background-color: black;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+}
+
+.custom-carousel-btn .carousel-control-prev-icon,
+.custom-carousel-btn .carousel-control-next-icon {
+    background-color: black;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.custom-carousel-btn:hover {
+    background-color: black;
+    color: white;
+}
+
+.custom-carousel-btn.carousel-control-prev {
+    left: -20px; /* Adjust position */
+}
+
+.custom-carousel-btn.carousel-control-next {
+    right: -20px; /* Adjust position */
 }
 </style>
