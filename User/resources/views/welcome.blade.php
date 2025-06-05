@@ -1,6 +1,12 @@
 @extends('layouts.layouts')
 
 @section('content')
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-4 z-50" role="alert" style="min-width:300px;max-width:90vw;">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
 <!-- Hero Section -->
 <section class="bg-black p-0 m-0">
     <div class="container-fluid px-0">
