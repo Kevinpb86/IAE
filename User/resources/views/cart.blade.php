@@ -67,9 +67,9 @@
                         </div>
                     </div>
                 </div>
-                <button class="w-full bg-primary text-white py-3 rounded hover:bg-gray-800 transition duration-300">
+                <a href="{{ route('checkout') }}" class="w-full block text-center bg-primary text-white py-3 rounded hover:bg-gray-800 transition duration-300">
                     Proceed to Checkout
-                </button>
+                </a>
             </div>
         </div>
     </div>

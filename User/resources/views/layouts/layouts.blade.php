@@ -99,7 +99,8 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-lg font-semibold mb-4">About Us</h3>
-                    <p class="text-gray-400 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies.</p>
+                    <p class="text-gray-400 mb-4 justify">Brand pakaian harian modern yang mengedepankan kenyamanan dan gaya fungsional untuk generasi muda. 
+                        “Simplify Your Style” </p>
                     <div class="flex space-x-3">
                         <a href="#" class="bg-gray-800 hover:bg-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
                             <i class="fab fa-facebook-f"></i>
