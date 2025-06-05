@@ -29,6 +29,6 @@ class CheckoutController extends Controller
 
         // Simpan order, kosongkan cart, dsb.
         // Redirect ke halaman welcome dengan pesan sukses
-        return redirect()->route('welcome')->with('success', 'Payment was successful!');
+        return redirect()->route('home')->with('success', 'Payment was successful!');
     }
 }

@@ -17,7 +17,7 @@ use App\Http\Controllers\ProductController;
 
 // Public Routes
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 // Authentication Routes
