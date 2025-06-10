@@ -34,6 +34,7 @@ class CheckoutController extends Controller
         }
 
         // Simpan order, kosongkan cart, dsb.
+        session()->forget('cart'); // Clear the cart
         return redirect()->route('home')->with('success', 'Payment was successful!');
     }
 }
