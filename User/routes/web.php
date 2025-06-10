@@ -8,6 +8,7 @@ use App\Http\Controllers\PreOrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -47,6 +48,12 @@ Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add')
 // Checkout Route
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+
+// Order Routes
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::get('/orders/email/{email}', [OrderController::class, 'getOrdersByEmail'])->name('orders.by-email');
+Route::get('/orders/date-range', [OrderController::class, 'getOrdersByDateRange'])->name('orders.by-date-range');
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
