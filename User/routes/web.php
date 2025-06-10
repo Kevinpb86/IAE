@@ -50,7 +50,6 @@ Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
-
     Route::get('/layouts', function () {
         return view('layouts.layouts');
     })->name('layouts');
