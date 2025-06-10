@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PreOrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,7 @@ use App\Http\Controllers\ProductController;
 
 // Public Routes
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 // Authentication Routes
@@ -43,6 +44,10 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 
+// Checkout Route
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
 
@@ -66,4 +71,8 @@ Route::middleware(['auth'])->group(function () {
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/history', function () {
+    return view('history');
+})->name('history')->middleware('auth');
 

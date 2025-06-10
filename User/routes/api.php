@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PreOrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\OrderApiController;
 
 // Rute untuk User
 Route::prefix('users')->group(function () {
@@ -46,4 +47,8 @@ Route::middleware(['api'])->group(function () {
         // DELETE /api/products/{id} - Delete product
         Route::delete('/{id}', [ProductController::class, 'destroy']);
     });
+
+    // Order API Routes
+    Route::post('/orders', [OrderApiController::class, 'store']);
+    Route::get('/orders', [OrderApiController::class, 'index']);
 });

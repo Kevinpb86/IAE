@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\AdminProduct; // Use AdminProduct model
 
 class HomeController extends Controller
 {
@@ -14,9 +14,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Fetch products for the exclusive collection section
-        $products = Product::orderBy('created_at', 'desc')->take(8)->get();
-        
+        $products = AdminProduct::all(); // Fetch all products from admin database
         return view('welcome', compact('products'));
     }
 }
