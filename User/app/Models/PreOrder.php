@@ -9,12 +9,17 @@ class PreOrder extends Model
 {
     use HasFactory;
 
+    // protected $connection = 'user';
+    // protected $table = 'pre_orders';
+
     protected $fillable = [
-        'product',
-        'quantity',
+        'customer_name',
+        'customer_email',
+        'item_name',
+        'item_quantity',
+        'total_price',
         'address',
         'phone_number',
-        'email',
         'additional_notes',
     ];
 }

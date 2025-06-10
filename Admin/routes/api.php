@@ -9,9 +9,13 @@ Route::middleware(['api'])->group(function () {
     Route::get('/products', [ProductApiController::class, 'index']);
     Route::post('/products', [ProductApiController::class, 'store']);
     
+    Route::get('/queue', [App\Http\Api\QueueController::class, 'index']);
+    Route::post('/queue', [App\Http\Api\QueueController::class, 'store']);
+  
     // Purchase History API routes
     Route::get('/purchase-history', [PurchaseHistoryController::class, 'filterApi']);
     Route::post('/purchase-history', [PurchaseHistoryController::class, 'store']);
+
 
     Route::get('/test-api', function () {
         return response()->json(['message' => 'API is working']);

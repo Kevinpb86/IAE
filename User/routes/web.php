@@ -47,7 +47,7 @@ Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add')
 
 // Checkout Route
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process')->middleware('auth');
 
 // Order Routes
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -57,7 +57,6 @@ Route::get('/orders/date-range', [OrderController::class, 'getOrdersByDateRange'
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
-
     Route::get('/layouts', function () {
         return view('layouts.layouts');
     })->name('layouts');
