@@ -46,7 +46,9 @@ Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add')
 
 // Checkout Route
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process')->middleware('auth')->then(function () {
+    return redirect()->route('home')->with('success', 'Payment was successful!');
+});
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {

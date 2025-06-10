@@ -28,7 +28,5 @@ class CheckoutController extends Controller
         $orderService->sendOrderToApi($orderId, $email, $name);
 
         // Simpan order, kosongkan cart, dsb.
-        // Redirect ke halaman welcome dengan pesan sukses
-        return redirect()->route('home')->with('success', 'Payment was successful!');
     }
 }
