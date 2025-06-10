@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
+use App\Services\OrderService;
 
 class CheckoutController extends Controller
 {
@@ -36,10 +39,14 @@ class CheckoutController extends Controller
         $total = $subtotal + $shipping + $tax;
 
         return view('checkout', compact('cartItems', 'subtotal', 'shipping', 'tax', 'total'));
+        $cartItems = session('cart', []);
+        return view('checkout', compact('cartItems'));
+
     }
 
     public function process(Request $request)
     {
+
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -122,3 +129,22 @@ class CheckoutController extends Controller
         }
     }
 } 
+
+        $paymentMethod = $request->input('payment_method');
+        $cartItems = session('cart', []);
+        // Contoh data customer, sesuaikan dengan implementasi user
+        $customer = auth()->user();
+        $orderId = uniqid('ORD-');
+        $email = $customer ? $customer->email : $request->input('email');
+        $name = $customer ? $customer->name : $request->input('name');
+
+        // Kirim ke service
+        $orderService = new OrderService();
+        $orderService->sendOrderToApi($orderId, $email, $name);
+
+        // Simpan order, kosongkan cart, dsb.
+        // Redirect ke halaman welcome dengan pesan sukses
+        return redirect()->route('home')->with('success', 'Payment was successful!');
+    }
+}
+

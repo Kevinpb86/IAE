@@ -17,7 +17,7 @@ use App\Http\Controllers\ProductController;
 
 // Public Routes
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 // Authentication Routes
@@ -27,10 +27,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Registration Routes
 Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
@@ -39,9 +36,6 @@ Route::post('/register', [RegisterController::class, 'register']);
 // Pre-order Routes
 Route::get('/preorder/form', [PreOrderController::class, 'showForm'])->name('preorder.form');
 Route::post('/preorder/store', [PreOrderController::class, 'store'])->name('preorder.store');
-
-// Product Routes
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 // Shop Route
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
@@ -58,6 +52,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/api/orders/process', [CheckoutController::class, 'process'])->name('checkout.process');
 });
+
+// Checkout Route
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
@@ -83,7 +81,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/debug-db-config', function () {
-    return config('database.connections.admin');
-});
+Route::get('/history', function () {
+    return view('history');
+})->name('history')->middleware('auth');
 
