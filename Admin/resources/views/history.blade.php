@@ -31,6 +31,7 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th> <!-- Add Products Column -->
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200" id="ordersTableBody">
@@ -45,10 +46,17 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{ $order->email }}</div>
                                 </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">
+                                        @foreach(json_decode($order->products, true) as $product)
+                                            <span>{{ $product['name'] }} (x{{ $product['quantity'] }}) - ${{ $product['price'] }}</span><br>
+                                        @endforeach
+                                    </div>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="px-6 py-8 text-center">
+                                <td colspan="4" class="px-6 py-8 text-center">
                                     <div class="flex flex-col items-center justify-center text-gray-500">
                                         <i class="fas fa-shopping-cart text-4xl mb-3"></i>
                                         <p class="text-lg font-medium">No orders found</p>
@@ -119,4 +127,4 @@
         .catch(error => console.error('Error:', error));
     }
 </script>
-@endsection 
+@endsection

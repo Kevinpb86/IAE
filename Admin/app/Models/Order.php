@@ -9,5 +9,5 @@ class Order extends Model
     protected $connection = 'eai_user';
     protected $table = 'orders';
     
-    protected $fillable = ['order_id', 'email', 'name'];
+    protected $fillable = ['order_id', 'email', 'name', 'items', 'products']; // Add 'products' column
 }

@@ -10,7 +10,7 @@ class PurchaseHistoryController extends Controller
     public function index(Request $request)
     {
         // Get base query
-        $query = Order::query()->select('order_id', 'email', 'name');
+        $query = Order::query()->select('order_id', 'email', 'name', 'products'); // Include 'products'
 
         // Apply search filter
         if ($request->has('search')) {
@@ -67,6 +67,7 @@ class PurchaseHistoryController extends Controller
                 'name' => $order->name,
                 'email' => $order->email
             ],
+            'products' => json_decode($order->products, true), // Include 'products'
             'status' => $order->status,
             'total_amount' => $order->total_amount,
             'payment_method' => $order->payment_method,
@@ -154,4 +155,4 @@ class PurchaseHistoryController extends Controller
         $order = Order::findOrFail($id);
         return view('orders.print', compact('order'));
     }
-} 
+}

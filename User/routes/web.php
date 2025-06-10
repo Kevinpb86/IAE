@@ -9,6 +9,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\HistoryController;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -55,6 +56,9 @@ Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show'
 Route::get('/orders/email/{email}', [OrderController::class, 'getOrdersByEmail'])->name('orders.by-email');
 Route::get('/orders/date-range', [OrderController::class, 'getOrdersByDateRange'])->name('orders.by-date-range');
 
+// Add route for order history
+Route::get('/history', [HistoryController::class, 'index'])->name('history')->middleware('auth');
+
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/layouts', function () {
@@ -77,8 +81,4 @@ Route::middleware(['auth'])->group(function () {
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::get('/history', function () {
-    return view('history');
-})->name('history')->middleware('auth');
 
