@@ -64,18 +64,44 @@
                 <form action="{{ route('preorder.store') }}" method="POST" class="space-y-8">
                     @csrf
                     
+                    <!-- Name Input -->
+                    <div class="space-y-2 mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700 flex items-center">
+                            Name <span class="text-red-500 ml-1">*</span>
+                        </label>
+                        <input type="text" name="name" id="name" class="mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg transition-colors duration-200" placeholder="Enter your name">
+                    </div>
+
+                    <!-- Price Input
+                    <div class="space-y-2">
+                        <label for="price" class="block text-sm font-medium text-gray-700 flex items-center">
+                            Price <span class="text-red-500 ml-1">*</span>
+                        </label>
+                        <div class="mt-1 relative rounded-lg shadow-sm">
+                            <input type="number" name="price" id="price" min="0" step="0.01" class="focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 py-3 sm:text-sm border-gray-300 rounded-lg transition-colors duration-200" placeholder="0.00">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm">USD</span>
+                            </div>
+                        </div>
+                    </div> -->
+
                     <!-- Product Selection -->
                     <div class="space-y-2">
                         <label for="product" class="block text-sm font-medium text-gray-700 flex items-center">
                             Select Product <span class="text-red-500 ml-1">*</span>
-                            <span class="ml-2 text-xs text-gray-500">(Choose your desired product)</span>
                         </label>
-                        <select id="product" name="product_id" class="mt-1 block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg transition-colors duration-200">
+                        <select id="product" name="product" class="mt-1 block w-full pl-4 pr-10 py-3 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-lg transition-colors duration-200">
                             <option value="">Select a product</option>
                             @foreach($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->name }} - ${{ number_format($product->price, 2) }}</option>
+                                <option value="{{ $product->id }}" data-price="{{ $product->price }}" data-name="{{ $product->name }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <!-- Display Price -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Price per piece:</label>
+                        <p id="selected-product-price" class="text-lg font-bold text-gray-900">Select a product to see the price</p>
                     </div>
 
                     <!-- Quantity -->
@@ -96,7 +122,6 @@
                     <div class="space-y-2">
                         <label for="address" class="block text-sm font-medium text-gray-700 flex items-center">
                             Delivery Address <span class="text-red-500 ml-1">*</span>
-                            <span class="ml-2 text-xs text-gray-500">(Complete address for delivery)</span>
                         </label>
                         <textarea id="address" name="address" rows="3" class="mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg transition-colors duration-200" placeholder="Enter your complete delivery address"></textarea>
                     </div>
@@ -104,21 +129,19 @@
                     <!-- Contact Information -->
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div class="space-y-2">
-                            <label for="phone" class="block text-sm font-medium text-gray-700 flex items-center">
+                            <label for="phone_number" class="block text-sm font-medium text-gray-700 flex items-center">
                                 Phone Number <span class="text-red-500 ml-1">*</span>
-                                <span class="ml-2 text-xs text-gray-500">(For delivery updates)</span>
                             </label>
                             <div class="mt-1 relative rounded-lg shadow-sm">
                                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                     <span class="text-gray-500 sm:text-sm">+62</span>
                                 </div>
-                                <input type="tel" name="phone" id="phone" class="focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 pr-3 py-3 sm:text-sm border-gray-300 rounded-lg transition-colors duration-200" placeholder="812-3456-7890">
+                                <input type="tel" name="phone_number" id="phone_number" class="focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-12 pr-3 py-3 sm:text-sm border-gray-300 rounded-lg transition-colors duration-200" placeholder="812-3456-7890">
                             </div>
                         </div>
                         <div class="space-y-2">
                             <label for="email" class="block text-sm font-medium text-gray-700 flex items-center">
                                 Email <span class="text-red-500 ml-1">*</span>
-                                <span class="ml-2 text-xs text-gray-500">(For order confirmation)</span>
                             </label>
                             <input type="email" name="email" id="email" class="mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg transition-colors duration-200" placeholder="you@example.com">
                         </div>
@@ -126,11 +149,11 @@
 
                     <!-- Additional Notes -->
                     <div class="space-y-2">
-                        <label for="notes" class="block text-sm font-medium text-gray-700 flex items-center">
+                        <label for="additional_notes" class="block text-sm font-medium text-gray-700 flex items-center">
                             Additional Notes
                             <span class="ml-2 text-xs text-gray-500">(Optional)</span>
                         </label>
-                        <textarea id="notes" name="notes" rows="3" class="mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg transition-colors duration-200" placeholder="Any special instructions or requests?"></textarea>
+                        <textarea id="additional_notes" name="additional_notes" rows="3" class="mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-lg transition-colors duration-200" placeholder="Any special instructions or requests?"></textarea>
                     </div>
 
                     <!-- Submit Button -->
@@ -215,31 +238,69 @@
 
 <script>
     document.querySelector('form').addEventListener('submit', async function(event) {
-        event.preventDefault(); // Mencegah reload halaman
+        event.preventDefault();
 
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
 
+        // Get selected product name and price from data attributes
+        const productSelect = document.getElementById('product');
+        const selectedOption = productSelect.options[productSelect.selectedIndex];
+        const itemName = selectedOption.getAttribute('data-name');
+        const itemPrice = parseFloat(selectedOption.getAttribute('data-price'));
+        const quantity = parseInt(data.quantity, 10);
+
+        // Calculate total price
+        const totalPrice = itemPrice * quantity;
+
+        // Create data object with new keys
+        const apiData = {
+            customer_name: data.name,
+            customer_email: data.email,
+            item_name: itemName,
+            item_quantity: quantity,
+            total_price: totalPrice,
+            address: data.address,
+            phone_number: data.phone_number,
+            additional_notes: data.additional_notes || null
+        };
+
         try {
-            const response = await fetch('/api/preorders', {
+            const response = await fetch('http://127.0.0.1:8001/api/preorders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(apiData),
             });
 
             if (response.ok) {
                 const result = await response.json();
-                alert('Pre-order berhasil: ' + JSON.stringify(result));
+                alert('Pre-order submitted successfully!');
+                window.location.reload(); // Reload the page after successful submission
             } else {
                 const error = await response.json();
-                alert('Terjadi kesalahan: ' + JSON.stringify(error));
+                alert('Error: ' + JSON.stringify(error));
             }
         } catch (err) {
             console.error('Error:', err);
-            alert('Gagal mengirim data.');
+            alert('Failed to submit pre-order. Please try again.');
+        }
+    });
+
+    // Javascript to update price based on product selection
+    const productSelect = document.getElementById('product');
+    const priceDisplay = document.getElementById('selected-product-price');
+
+    productSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const price = selectedOption.getAttribute('data-price');
+
+        if (price) {
+            priceDisplay.textContent = `Price: $${parseFloat(price).toFixed(2)}`;
+        } else {
+            priceDisplay.textContent = 'Select a product to see the price';
         }
     });
 </script>
