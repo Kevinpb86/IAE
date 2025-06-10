@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('order_id')->unique();
             $table->string('email');
             $table->string('name');
+            $table->text('products'); // Add 'products' column to store product data
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('orders'); // Drop the table
     }
 };
