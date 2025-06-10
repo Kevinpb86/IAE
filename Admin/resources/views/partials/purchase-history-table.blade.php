@@ -24,54 +24,6 @@
         </div>
     </div>
 
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-blue-100 text-blue-600">
-                    <i class="fas fa-shopping-cart text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Total Purchases</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $totalPurchases ?? 0 }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-green-100 text-green-600">
-                    <i class="fas fa-check-circle text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Completed</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $completedPurchases ?? 0 }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
-                    <i class="fas fa-clock text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Pending</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ $pendingPurchases ?? 0 }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div class="flex items-center">
-                <div class="p-3 rounded-full bg-purple-100 text-purple-600">
-                    <i class="fas fa-dollar-sign text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-500">Total Revenue</p>
-                    <p class="text-2xl font-semibold text-gray-900">${{ number_format($totalRevenue ?? 0, 2) }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Table -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
         <div class="overflow-x-auto">
@@ -80,30 +32,20 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($purchases as $purchase)
-                        <tr class="hover:bg-gray-50 transition-colors duration-200">
+                    @forelse($orders as $order)
+                        <tr class="hover:bg-gray-50 transition duration-150 ease-in-out">
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">#{{ $purchase->order_id }}</div>
-                                <div class="text-xs text-gray-500">{{ $purchase->items_count ?? 0 }} items</div>
+                                <div class="text-sm font-medium text-gray-900">#{{ $order->order_id }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                                        <i class="fas fa-user text-gray-500"></i>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">{{ $purchase->customer_name }}</div>
-                                        <div class="text-sm text-gray-500">{{ $purchase->customer_email }}</div>
-                                    </div>
-                                </div>
+                                <div class="text-sm text-gray-900">{{ $order->name }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">${{ number_format($purchase->amount, 2) }}</div>
-                                <div class="text-xs text-gray-500">{{ $purchase->payment_method ?? 'Credit Card' }}</div>
+                                <div class="text-sm text-gray-900">{{ $order->email }}</div>
                             </td>
                         </tr>
                     @empty
@@ -111,8 +53,8 @@
                             <td colspan="3" class="px-6 py-8 text-center">
                                 <div class="flex flex-col items-center justify-center text-gray-500">
                                     <i class="fas fa-shopping-cart text-4xl mb-3"></i>
-                                    <p class="text-lg font-medium">No purchase records found</p>
-                                    <p class="text-sm">Start tracking your purchases to see them here</p>
+                                    <p class="text-lg font-medium">No orders found</p>
+                                    <p class="text-sm">Customer orders will appear here</p>
                                 </div>
                             </td>
                         </tr>
@@ -135,16 +77,16 @@
                 <div>
                     <p class="text-sm text-gray-700">
                         Showing
-                        <span class="font-medium">{{ $purchases->firstItem() ?? 0 }}</span>
+                        <span class="font-medium">{{ $orders->firstItem() ?? 0 }}</span>
                         to
-                        <span class="font-medium">{{ $purchases->lastItem() ?? 0 }}</span>
+                        <span class="font-medium">{{ $orders->lastItem() ?? 0 }}</span>
                         of
-                        <span class="font-medium">{{ $purchases->total() }}</span>
+                        <span class="font-medium">{{ $orders->total() }}</span>
                         results
                     </p>
                 </div>
                 <div>
-                    {{ $purchases->links() }}
+                    {{ $orders->links() }}
                 </div>
             </div>
         </div>
