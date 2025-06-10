@@ -16,12 +16,14 @@ class PreOrderController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email',
-            'notes' => 'nullable|string'
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
+            'item_name' => 'required|string|max:255',
+            'item_quantity' => 'required|integer|min:1',
+            'address' => 'required|string|max:500',
+            'phone_number' => 'required|string|max:20',
+            'total_price' => 'required|numeric|min:0',
+            'additional_notes' => 'nullable|string|max:1000',
         ]);
 
         // Here you would typically save the pre-order to the database
