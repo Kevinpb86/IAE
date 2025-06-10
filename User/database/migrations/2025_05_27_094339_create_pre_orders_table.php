@@ -13,9 +13,13 @@ class CreatePreOrdersTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('product');
             $table->integer('quantity');
+            $table->string('customer_name');
+            $table->string('customer_email');
+            $table->string('item_name');
+            $table->integer('item_quantity');
+            $table->decimal('total_price', 10, 2);
             $table->string('address', 500);
-            $table->string('phone_number', 15);
-            $table->string('email');
+            $table->string('phone_number', 20);
             $table->text('additional_notes')->nullable();
             $table->timestamps();
         });

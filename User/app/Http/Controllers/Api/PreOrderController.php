@@ -5,55 +5,73 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\PreOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PreOrderController extends Controller
 {
     public function store(Request $request)
     {
+        \Log::info('User PreOrder API: Raw request body', ['body' => $request->getContent()]);
+
         $validated = $request->validate([
-            'product' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
+            'item_name' => 'required|string|max:255',
+            'item_quantity' => 'required|integer|min:1',
             'address' => 'required|string|max:500',
-            'phone_number' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
+            'phone_number' => 'required|string|max:20',
+            'total_price' => 'required|numeric|min:0',
             'additional_notes' => 'nullable|string|max:1000',
         ]);
 
-        // Simpan data ke database
-        $preOrder = PreOrder::create($validated);
+        \Log::info('PreOrder store: Validated data received', $validated);
 
-        // Periksa apakah request menginginkan respons JSON (API call)
-        if ($request->wantsJson() || $request->ajax()) {
-            return response()->json([
-                'message' => 'Pre-order berhasil disimpan',
-                'data' => $preOrder,
-            ], 201);
+        try {
+            \Log::info('PreOrder store: Attempting to create PreOrder');
+            $preOrder = PreOrder::create($validated);
+            \Log::info('PreOrder store: PreOrder created successfully', ['id' => $preOrder->id]);
+
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'message' => 'Pre-order berhasil disimpan',
+                    'data' => $preOrder,
+                ], 201);
+            }
+
+            return redirect()->route('preorder.form')->with('success', 'Pre-order berhasil disimpan!');
+
+        } catch (\Exception $e) {
+            // Log the exception for debugging
+            \Log::error('Error creating pre-order: ' . $e->getMessage());
+
+            // Return a JSON error response if it's an API request
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'error' => 'Could not save pre-order',
+                    'details' => $e->getMessage()
+                ], 500);
+            }
+
+            // Otherwise, redirect back with an error message
+            return redirect()->back()->withInput()->withErrors(['error' => 'Could not save pre-order. Please try again.']);
         }
-
-        // Jika berasal dari form web, redirect ke halaman lain
-        return redirect()->route('preorder.form')->with('success', 'Pre-order berhasil disimpan!');
     }
 
     public function index()
     {
-        // Ambil semua data pre-order dari database
         $preOrders = PreOrder::all();
 
-        // Kembalikan data dalam format JSON
         return response()->json($preOrders);
     }
 
     public function show($id)
     {
-        // Cari pre-order berdasarkan ID
         $preOrder = PreOrder::find($id);
 
-        // Jika pre-order tidak ditemukan, kembalikan respons error
         if (!$preOrder) {
             return response()->json(['message' => 'Pre-order tidak ditemukan'], 404);
         }
 
-        // Kembalikan data pre-order
         return response()->json($preOrder);
     }
 }
