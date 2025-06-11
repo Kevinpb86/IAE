@@ -44,7 +44,6 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
 // Cart Route
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 
 // Checkout Route
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
@@ -66,6 +65,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('layouts');
     
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 });
 
 
@@ -81,4 +82,5 @@ Route::middleware(['auth'])->group(function () {
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
