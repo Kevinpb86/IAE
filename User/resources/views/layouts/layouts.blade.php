@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Fashion Store</title>
+    <title>Strave</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- Tailwind CSS -->
@@ -31,7 +31,7 @@
                     <div class="flex items-center">
                     </div>
                     <div class="text-center">
-                        Welcome to Our Store
+                        Welcome to Strave!
                     </div>
                     <div class="flex space-x-4">
                     </div>
@@ -45,7 +45,7 @@
                         <img src="{{ asset('images/Logo Strave.jpeg') }}" alt="Fashion Store Logo" class="h-10">
                     </a>
                     <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
-                        <a href="{{ route('preorder.form') }}" class="font-medium text-black hover:text-gray-600">Form</a>
+                        <a href="{{ route('preorder.form') }}" class="font-medium text-black hover:text-gray-600">PreOrder</a>
                         <a href="{{ route('shop') }}" class="font-medium text-gray-700 hover:text-black">Shop</a>
                         <a href="{{ route('history') }}" class="font-medium text-gray-700 hover:text-black">History</a>
                     </div>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminProduct;
 use Illuminate\Http\Request;
-use App\Models\AdminProduct; // Use AdminProduct model
 
 class HomeController extends Controller
 {
@@ -12,9 +12,23 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = AdminProduct::all(); // Fetch all products from admin database
+        $products = AdminProduct::all()->map(function($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->product_name,
+                'price' => $product->price,
+                'image_url' => $product->image ? asset('Product/' . basename($product->image)) : 'https://via.placeholder.com/300x400',
+                'category' => $product->category,
+                'gender' => $product->gender,
+                'size' => $product->size,
+                'stock' => $product->stock,
+                'created_at' => $product->created_at,
+                'rating' => 5
+            ];
+        });
+        
         return view('welcome', compact('products'));
     }
 }
