@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
         return view('layouts.layouts');
     })->name('layouts');
     Route::get('/profile', [ProfileController::class, 'index']);
-    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/history', [HistoryController::class, 'index'])->name('history');
 });
