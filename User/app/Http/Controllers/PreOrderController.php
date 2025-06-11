@@ -28,6 +28,6 @@ class PreOrderController extends Controller
 
         // Here you would typically save the pre-order to the database
         // For now, we'll just redirect back with a success message
-        return redirect()->back()->with('success', 'Pre-order submitted successfully!');
+        return redirect()->route('home')->with('success', 'Preorder berhasil!');
     }
-} 
+}
