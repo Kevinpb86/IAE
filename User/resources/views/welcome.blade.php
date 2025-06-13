@@ -51,9 +51,11 @@
                         <div class="d-flex justify-content-center gap-3">
                             @foreach($chunk as $product)
                                 <div class="bg-white rounded-lg shadow-md overflow-hidden text-center" style="width: 250px;">
-                                    <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->product_name }}" class="w-full h-40 object-contain bg-gray-50 mb-4">
-                                    <h3 class="font-medium text-gray-800 mb-2">{{ $product->product_name }}</h3>
-                                    <div class="text-primary font-semibold text-lg mb-2">${{ number_format($product->price, 2) }}</div>
+                                    <img src="{{ $product['image_url'] ?? 'https://via.placeholder.com/300x400' }}" 
+                                         alt="{{ $product['name'] ?? 'Product' }}" 
+                                         class="w-full h-40 object-contain bg-gray-50 mb-4">
+                                    <h3 class="font-medium text-gray-800 mb-2">{{ $product['name'] }}</h3>
+                                    <div class="text-primary font-semibold text-lg mb-2">${{ number_format($product['price'], 2) }}</div>
                                     <a href="{{ route('shop') }}" class="bg-black text-white px-4 py-2 rounded font-medium inline-block">Shop Now</a>
                                 </div>
                             @endforeach
@@ -80,50 +82,46 @@
         <div class="text-center text-white">
             <h2 class="text-3xl font-bold mb-4">Start Of New Dress</h2>
             <p class="text-xl mb-6">Crafted with New Valuable Designs in Dress</p>
-            <a href="#" class="bg-black text-white px-6 py-3 rounded font-medium inline-block">Shop Now</a>
+            <a href="{{ route('shop') }}" class="bg-[#f3efec] text-black px-6 py-3 rounded font-medium inline-block">Shop Now</a>
         </div>
     </div>
 </section>
 
 <!-- Exclusive Collection Section -->
-<section class="bg-black py-16">
+<section class="bg-[#f3efec] py-16">
     <div class="container mx-auto px-4">
-        <h2 class="text-2xl font-semibold text-center mb-10 text-white">Exclusive Collection</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <h2 class="text-2xl font-semibold text-center mb-10 text-black">Exclusive Collection</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             @foreach($products as $product)
-            <div class="bg-black rounded-lg shadow-sm overflow-hidden transform hover:-translate-y-1 hover:shadow-lg transition duration-300">
-                <div class="relative">
-                    <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-64 object-cover">
-                    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 py-3 px-4 transform translate-y-full opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition duration-300">
-                        <button class="w-full bg-black text-white py-2 rounded font-medium">Add to Cart</button>
-                    </div>
+            <div class="bg-black rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 hover:shadow-2xl transition duration-300 flex flex-col">
+                <div class="relative group">
+                    <img src="{{ $product['image_url'] ?? 'https://via.placeholder.com/300x400' }}" 
+                         alt="{{ $product['name'] ?? 'Product' }}" 
+                         class="w-full h-64 object-contain transition-transform duration-300 group-hover:scale-105 rounded-t-xl bg-gray-50">
                 </div>
-                <div class="p-4">
+                <div class="p-5 flex flex-col flex-1">
                     <div class="flex text-yellow-400 mb-2">
                         @for($i = 1; $i <= 5; $i++)
-                            @if($i <= $product->rating)
+                            @if($i <= $product['rating'])
                                 <i class="fas fa-star"></i>
                             @else
                                 <i class="far fa-star"></i>
                             @endif
                         @endfor
                     </div>
-                    <h3 class="font-medium text-white mb-2">{{ $product->name }}</h3>
-                    <div class="text-white font-semibold text-lg mb-4">${{ number_format($product->price, 2) }}</div>
-                    <div class="flex justify-between">
-                        <button class="border border-gray-300 rounded px-2 py-1 hover:bg-gray-100">
-                            <i class="far fa-heart"></i>
+                    <h3 class="font-medium text-white mb-2 text-lg truncate">{{ $product['name'] }}</h3>
+                    <div class="text-white font-semibold text-lg mb-4">${{ number_format($product['price'], 2) }}</div>
+                    <div class="flex-1"></div>
+                    <form action="{{ route('cart.add') }}" method="POST" class="mt-2">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $product['id'] }}">
+                        <input type="hidden" name="name" value="{{ $product['name'] }}">
+                        <input type="hidden" name="price" value="{{ $product['price'] }}">
+                        <input type="hidden" name="image_url" value="{{ $product['image_url'] }}">
+                        <button type="submit" class="w-full bg-[#f3efec] text-black py-2 rounded-lg font-semibold shadow hover:bg-white hover:text-black transition duration-200">
+                            <i class="fas fa-cart-plus mr-2"></i> Add to Cart
                         </button>
-                        <button class="bg-black text-white rounded px-4 py-1 flex-grow mx-1">
-                            Add to Cart
-                        </button>
-                        <button class="border border-gray-300 rounded px-2 py-1 hover:bg-gray-100">
-                            <i class="far fa-eye"></i>
-                        </button>
-                        <button class="border border-gray-300 rounded px-2 py-1 hover:bg-gray-100">
-                            <i class="fas fa-retweet"></i>
-                        </button>
-                    </div>
+                    </form>
                 </div>
             </div>
             @endforeach
@@ -190,5 +188,13 @@
 
 .custom-carousel-btn.carousel-control-next {
     right: -20px; /* Adjust position */
+}
+
+.bg-primary {
+    background-color: #ffb300 !important; /* or your primary color */
+}
+.bg-primary:hover {
+    background-color: #ffd54f !important;
+    color: #222 !important;
 }
 </style>

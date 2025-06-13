@@ -2,22 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'product_name',
-        'quantity',
-        'user_id',
-        'additional_notes'
-    ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-} 
+    protected $connection = 'eai_user';
+    protected $table = 'orders';
+    
+    protected $fillable = ['order_id', 'email', 'name', 'items', 'products']; // Add 'products' column
+}

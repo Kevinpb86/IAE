@@ -27,10 +27,9 @@ class PreOrderController extends Controller
             'additional_notes' => 'nullable|string|max:1000',
         ]);
 
-        // Add user_id to the validated data
+
         $validated['user_id'] = auth()->id();
 
-        // Create the pre-order
         $preOrder = PreOrder::create($validated);
 
         return redirect()->back()->with('success', 'Pre-order submitted successfully!');
@@ -38,8 +37,9 @@ class PreOrderController extends Controller
 
     public function index()
     {
-        // Get only the current user's pre-orders
         $preOrders = PreOrder::where('user_id', auth()->id())->get();
         return view('preorder.index', compact('preOrders'));
     }
 } 
+
+    

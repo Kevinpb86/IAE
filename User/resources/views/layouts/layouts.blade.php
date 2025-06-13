@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Fashion Store</title>
+    <title>Strave</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- Tailwind CSS -->
@@ -31,7 +31,7 @@
                     <div class="flex items-center">
                     </div>
                     <div class="text-center">
-                        Welcome to Our Store
+                        Welcome to Strave!
                     </div>
                     <div class="flex space-x-4">
                     </div>
@@ -45,12 +45,11 @@
                         <img src="{{ asset('images/Logo Strave.jpeg') }}" alt="Fashion Store Logo" class="h-10">
                     </a>
                     <div class="hidden md:flex items-center space-x-6 flex-1 justify-center ml-32">
-                        <a href="{{ route('preorder.form') }}" class="font-medium text-black hover:text-gray-600">Form</a>
+                        <a href="{{ route('preorder.form') }}" class="font-medium text-black hover:text-gray-600">PreOrder</a>
                         <a href="{{ route('shop') }}" class="font-medium text-gray-700 hover:text-black">Shop</a>
                         <a href="{{ route('history') }}" class="font-medium text-gray-700 hover:text-black">History</a>
                     </div>
                     <div class="hidden md:flex items-center space-x-4">
-                        <a href="#" class="bg-black text-white px-6 py-2 rounded font-medium">SHOP NOW</a>
                         @guest
                             <a href="{{ route('login') }}" class="bg-[#f3efec] text-primary border border-primary px-6 py-2 rounded font-medium hover:bg-black hover:text-white transition duration-300">
                                 LOGIN
@@ -110,8 +109,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-lg font-semibold mb-4">About Us</h3>
-                    <p class="text-gray-400 mb-4 justify">Brand pakaian harian modern yang mengedepankan kenyamanan dan gaya fungsional untuk generasi muda. 
-                        “Simplify Your Style” </p>
+                    <p class="text-gray-400 mb-4 justify">A modern daily wear brand that emphasizes comfort and functional style for the younger generation. “Simplify Your Style”</p>
                     <div class="flex space-x-3">
                         <a href="#" class="bg-gray-800 hover:bg-black w-8 h-8 rounded-full flex items-center justify-center transition duration-300">
                             <i class="fab fa-facebook-f"></i>

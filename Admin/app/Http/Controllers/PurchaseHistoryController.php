@@ -2,180 +2,157 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PurchaseHistory;
-use App\Models\PurchaseItem;
+use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 class PurchaseHistoryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = PurchaseHistory::query();
+        // Get base query
+        $query = Order::query()->select('order_id', 'email', 'name', 'products'); // Include 'products'
 
-        // Search functionality
+        // Apply search filter
         if ($request->has('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
-                $q->where('customer_name', 'like', "%{$search}%")
+                $q->where('name', 'like', "%{$search}%")
                   ->orWhere('order_id', 'like', "%{$search}%")
-                  ->orWhere('customer_email', 'like', "%{$search}%");
+                  ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
-        // Status filter
-        if ($request->has('status') && $request->status !== '') {
-            $query->where('status', $request->status);
-        }
-
-        // Date filter
-        if ($request->has('date')) {
-            $query->whereDate('created_at', $request->date);
-        }
-
-        // Get statistics
-        $totalPurchases = PurchaseHistory::count();
-        $completedPurchases = PurchaseHistory::where('status', 'completed')->count();
-        $pendingPurchases = PurchaseHistory::where('status', 'pending')->count();
-        $totalRevenue = PurchaseHistory::where('status', 'completed')->sum('amount');
-
-        // Get paginated results with items count
-        $purchases = $query->withCount('items')->latest()->paginate(10);
-
+        // Get paginated orders
+        $orders = $query->latest()->paginate(10);
 
         if ($request->ajax()) {
             return response()->json([
-                'purchases' => $purchases,
-                'statistics' => [
-                    'totalPurchases' => $totalPurchases,
-                    'completedPurchases' => $completedPurchases,
-                    'pendingPurchases' => $pendingPurchases,
-                    'totalRevenue' => $totalRevenue
-                ],
-                'view' => view('partials.purchase-history-table', compact('purchases', 'totalPurchases', 'completedPurchases', 'pendingPurchases', 'totalRevenue'))->render()
+                'orders' => $orders,
+                'view' => view('partials.purchase-history-table', [
+                    'orders' => $orders
+                ])->render()
             ]);
         }
 
-        return view('history', compact('purchases', 'totalPurchases', 'completedPurchases', 'pendingPurchases', 'totalRevenue'));
-    }
-
-    // New API method for filtering purchase history
-    public function filterApi(Request $request)
-    {
-        $query = PurchaseHistory::query()->with('items'); // Eager load items
-
-        // Apply filters based on request parameters
-        if ($request->has('status') && $request->status !== '') {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->has('payment_method') && $request->payment_method !== '') {
-            $query->where('payment_method', $request->payment_method);
-        }
-
-        if ($request->has('start_date')) {
-            $query->whereDate('created_at', '>=', $request->start_date);
-        }
-
-        if ($request->has('end_date')) {
-            $query->whereDate('created_at', '<=', $request->end_date);
-        }
-
-        // Add more filters here as needed, e.g., by amount range, customer ID, etc.
-
-        // Optional: Handle search similar to index method if needed for this API endpoint
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('customer_name', 'like', "%{$search}%")
-                  ->orWhere('order_id', 'like', "%{$search}%")
-                  ->orWhere('customer_email', 'like', "%{$search}%");
-            });
-        }
-
-        // Optional: Pagination
-        $perPage = $request->get('per_page', 10); // Default to 10 items per page
-        $purchases = $request->has('paginate') && $request->paginate == 'false' 
-                     ? $query->get()
-                     : $query->paginate($perPage);
-
-        return response()->json($purchases);
-    }
-
-    // New API method to receive and store purchase history from User project
-    public function store(Request $request)
-    {
-        // Validate incoming data
-        $validator = Validator::make($request->all(), [
-            'order_id' => 'required|string|unique:purchase_histories',
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            'amount' => 'required|numeric|min:0',
-            'status' => 'required|in:completed,pending,cancelled',
-            'notes' => 'nullable|string',
-            'items' => 'required|array',
-            'items.*.product_name' => 'required|string|max:255',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price' => 'required|numeric|min:0',
+        return view('history', [
+            'orders' => $orders
         ]);
-
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Validation Error', 'errors' => $validator->errors()], 400);
-        }
-
-        // Create the purchase history record
-        $purchaseHistory = PurchaseHistory::create([
-            'order_id' => $request->order_id,
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'amount' => $request->amount,
-            'status' => $request->status,
-            'notes' => $request->notes,
-        ]);
-
-        // Create purchase items
-        foreach ($request->items as $item) {
-            $purchaseHistory->items()->create([ // Assuming a hasMany relationship named 'items'
-                'product_name' => $item['product_name'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-            ]);
-        }
-
-        return response()->json(['message' => 'Purchase history stored successfully', 'purchase' => $purchaseHistory], 201);
     }
 
+    /**
+     * Get the appropriate status badge class for an order status
+     */
+    private function getStatusBadgeClass($status)
+    {
+        $classes = [
+            'completed' => 'bg-green-100 text-green-800',
+            'pending' => 'bg-yellow-100 text-yellow-800',
+            'cancelled' => 'bg-red-100 text-red-800'
+        ];
+
+        return $classes[$status] ?? 'bg-gray-100 text-gray-800';
+    }
+
+    /**
+     * Show a single order's details
+     */
     public function show($id)
     {
-        $purchase = PurchaseHistory::findOrFail($id);
-        return response()->json($purchase);
+        $order = Order::findOrFail($id);
+        
+        $orderData = [
+            'id' => $order->id,
+            'order_id' => $order->order_id,
+            'customer' => [
+                'name' => $order->name,
+                'email' => $order->email
+            ],
+            'products' => json_decode($order->products, true), // Include 'products'
+            'status' => $order->status,
+            'total_amount' => $order->total_amount,
+            'payment_method' => $order->payment_method,
+            'shipping_address' => $order->shipping_address,
+            'notes' => $order->notes,
+            'created_at' => $order->created_at,
+            'updated_at' => $order->updated_at,
+            'status_badge' => $this->getStatusBadgeClass($order->status)
+        ];
+
+        return response()->json($orderData);
     }
 
-    public function download($id)
+    /**
+     * Update order status
+     */
+    public function updateStatus(Request $request, $id)
     {
-        $purchase = PurchaseHistory::findOrFail($id);
+        $order = Order::findOrFail($id);
         
-        // Generate PDF or CSV based on your needs
-        // For now, we'll just return a JSON response
+        $validated = $request->validate([
+            'status' => 'required|in:pending,completed,cancelled'
+        ]);
+
+        $order->update([
+            'status' => $validated['status']
+        ]);
+
         return response()->json([
-            'message' => 'Download functionality will be implemented here',
-            'purchase' => $purchase
+            'message' => 'Order status updated successfully',
+            'order' => [
+                'id' => $order->id,
+                'status' => $order->status,
+                'status_badge' => $this->getStatusBadgeClass($order->status)
+            ]
         ]);
     }
 
-    public function print($id)
+    /**
+     * Cancel an order
+     */
+    public function cancelOrder($id)
     {
-        $purchase = PurchaseHistory::with('items')->findOrFail($id);
-        return view('purchase.print', compact('purchase'));
+        $order = Order::findOrFail($id);
+        
+        if ($order->status !== 'pending') {
+            return response()->json([
+                'message' => 'Only pending orders can be cancelled'
+            ], 422);
+        }
+
+        $order->update([
+            'status' => 'cancelled'
+        ]);
+
+        return response()->json([
+            'message' => 'Order cancelled successfully',
+            'order' => [
+                'id' => $order->id,
+                'status' => $order->status,
+                'status_badge' => $this->getStatusBadgeClass($order->status)
+            ]
+        ]);
     }
 
-    // Helper method to generate a unique order ID
-    private function generateOrderId()
+    /**
+     * Download order details
+     */
+    public function download($id)
     {
-        $prefix = 'ORD';
-        $timestamp = now()->format('YmdHis');
-        $random = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-        return $prefix . $timestamp . $random;
+        $order = Order::findOrFail($id);
+        
+        // TODO: Implement PDF or CSV generation
+        return response()->json([
+            'message' => 'Download functionality will be implemented here',
+            'order' => $order
+        ]);
+    }
+
+    /**
+     * Print order details
+     */
+    public function print($id)
+    {
+        $order = Order::findOrFail($id);
+        return view('orders.print', compact('order'));
     }
 }

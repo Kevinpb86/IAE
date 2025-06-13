@@ -8,24 +8,21 @@ use App\Http\Controllers\PreOrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
-
-use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProductController;
 
-
-
 // Public Routes
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('/preorder/form', [PreOrderController::class, 'showForm'])->name('preorder.form');
+Route::post('/preorder/store', [PreOrderController::class, 'store'])->name('preorder.store');
 
 // Authentication Routes
-
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
-
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -53,35 +50,23 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/api/orders/process', [CheckoutController::class, 'process'])->name('checkout.process');
 });
 
-// Checkout Route
+// Checkout Route (proses checkout harus login)
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
-Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 
-// Protected Routes
+// Order Routes
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::get('/orders/email/{email}', [OrderController::class, 'getOrdersByEmail'])->name('orders.by-email');
+Route::get('/orders/date-range', [OrderController::class, 'getOrdersByDateRange'])->name('orders.by-date-range');
+
+// Protected Routes (hanya fitur yang perlu login)
 Route::middleware(['auth'])->group(function () {
-
     Route::get('/layouts', function () {
         return view('layouts.layouts');
     })->name('layouts');
-    
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history');
 });
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::get('/history', function () {
-    return view('history');
-})->name('history')->middleware('auth');
 
